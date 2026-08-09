@@ -67,9 +67,36 @@ Les plus importantes sont :
 | `MAX_SESSIONS` | Nombre maximal de sessions | `50` |
 | `SESSION_BASE_PATH` | Dossier de sauvegarde des sessions | `./session` |
 | `WEBSITE` | URL publique du service | `https://mon-bot.example` |
+| `GIFTEDTECH_API_KEY` | Clé optionnelle des endpoints GiftedTech | — |
+| `THRESAV_API_KEY` | Clé optionnelle du convertisseur YouTube MP4 | — |
+| `NEXORACLE_API_KEY` | Clé des commandes GFX/logo | — |
 
 Ne publie jamais ton fichier `.env`. Les dossiers `session/` et `tmp/` sont
 également ignorés par Git.
+
+### API intégrées
+
+Les commandes utilisent les endpoints du fichier API fourni avec des fallbacks :
+
+| Commandes | Fonction |
+| --- | --- |
+| `.play`, `.song`, `.ytmp3` | Recherche et téléchargement audio YouTube |
+| `.playdoc` | Envoie l'audio en document |
+| `.spotify` | Recherche et téléchargement Spotify |
+| `.video`, `.ytb`, `.yt`, `.youtube`, `.videodoc`, `.ytmp4` | Téléchargement vidéo YouTube |
+| `.tiktok` | Téléchargement TikTok |
+| `.fb` | Téléchargement Facebook |
+| `.yts` | Recherche YouTube |
+| `.achar`, `.character` | Recherche de personnages via Jikan |
+| `.apk` | Recherche et envoi d'un APK |
+| `.catbox`, `.tourl`, `.url` | Upload Catbox |
+| `.gfx*` et les commandes de styles | Génération d'images et de logos |
+| `.ai`, `.gpt` et alias IA | Chat via ChatEverywhere |
+
+Les API publiques gratuites peuvent changer, limiter les requêtes ou devenir
+indisponibles. Le bot essaie plusieurs fournisseurs quand c'est possible et
+retourne une erreur lisible si tous échouent. Les clés ne sont pas incluses
+dans le dépôt : ajoute-les uniquement dans les variables privées de Render.
 
 ## Déploiement avec Render
 
@@ -79,8 +106,9 @@ Le dépôt contient déjà [`render.yaml`](render.yaml) et un `Dockerfile`.
 2. Choisis **New → Blueprint** et sélectionne le dépôt.
 3. Render détectera `render.yaml`, construira l'image Docker et utilisera `npm start`.
 4. Vérifie la variable `OWNER_NUMBER` dans les paramètres du service.
-5. Après le déploiement, ouvre l'URL Render et vérifie `/health`.
-6. Ouvre ensuite la page d'accueil pour demander le code de jumelage.
+5. Ajoute les clés API optionnelles si tu veux activer les fournisseurs qui les exigent.
+6. Après le déploiement, ouvre l'URL Render et vérifie `/health`.
+7. Ouvre ensuite la page d'accueil pour demander le code de jumelage.
 
 Le fichier ne fixe volontairement pas `PORT` dans Render : la plateforme fournit
 elle-même le port attendu par le service.

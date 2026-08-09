@@ -5,6 +5,16 @@ const store = require('./lib/store');
 const { exec } = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
+const {
+  youtubeAudio,
+  spotifyAudio,
+  youtubeVideo,
+  tiktokVideo,
+  facebookVideo,
+  apkDownload,
+  youtubeSearch,
+  characterSearch,
+} = require('./lib/external-apis');
 
 // ─── State ────────────────────────────────────────────────────────
 const activeGames   = new Map();
@@ -67,7 +77,10 @@ async function ephoto(sock, from, msg, endpoint, label, inputText) {
 // ── GFX/LOGO helper ───────────────────────────────────────────────
 async function gfxLogo(sock, from, msg, style, text1, text2) {
   if (!text1 || !text2) return sock.sendMessage(from, { text: `❌ Usage: .${style} text1|text2\nExample: .${style} DENTSU|MD` }, { quoted: msg });
-  const url = `https://api.nexoracle.com/image-creating/${style}?apikey=d0634e61e8789b051e&text1=${encodeURIComponent(text1)}&text2=${encodeURIComponent(text2)}`;
+  if (!config.NEXORACLE_API_KEY) {
+    return sock.sendMessage(from, { text: `⚠️ Configure NEXORACLE_API_KEY dans les variables Render pour utiliser .${style}.` }, { quoted: msg });
+  }
+  const url = `https://api.nexoracle.com/image-creating/${style}?apikey=${encodeURIComponent(config.NEXORACLE_API_KEY)}&text1=${encodeURIComponent(text1)}&text2=${encodeURIComponent(text2)}`;
   try {
     await sock.sendMessage(from, { image: { url }, caption: `✨ *${style.toUpperCase()}* Style\n🔤 ${text1}\n🔡 ${text2}` }, { quoted: msg });
   } catch (e) {
@@ -741,11 +754,8 @@ async function handleCommand(ctx) {
     if (!text) return reply('❌ Provide a TikTok URL.\nExample: .tiktok https://vm.tiktok.com/...');
     try {
       await reply('⏳ Downloading TikTok video...');
-      const res = await axios.get(`https://api.bk9.dev/download/tiktok?url=${encodeURIComponent(text)}`);
-      const data = res.data?.BK9 || res.data;
-      const videoUrl = data?.video_url || data?.play || data?.download;
-      if (!videoUrl) return reply('❌ Could not extract TikTok video URL.');
-      await sock.sendMessage(from, { video: { url: videoUrl }, caption: `🎵 TikTok video\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
+      const result = await tiktokVideo(text);
+      await sock.sendMessage(from, { video: { url: result.url }, caption: `🎵 TikTok video\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
     } catch (e) { await reply(`❌ TikTok download failed: ${e.message}`); }
     return true;
   }
@@ -758,39 +768,69 @@ async function handleCommand(ctx) {
     try {
       await sock.sendMessage(from, { react: { text: '🎧', key: msg.key } });
       await reply('⏳ Searching and downloading audio...');
-      const yts = require('yt-search');
-      const search = await yts(text);
-      const result = search.all?.[0];
-      if (!result) return reply('❌ No results found.');
-      const res = await axios.get(`https://api.bk9.dev/download/ytmp3?url=${encodeURIComponent(result.url)}`);
-      const mp3 = res.data?.BK9?.downloadUrl || res.data?.downloadUrl;
-      if (!mp3) return reply('❌ Download failed. Try again.');
+      const result = await youtubeAudio(text);
       await sock.sendMessage(from, {
-        audio: { url: mp3 },
+        audio: { url: result.url },
         mimetype: 'audio/mpeg',
-        contextInfo: { externalAdReply: { thumbnailUrl: result.thumbnail, title: result.title, body: `${result.author?.name} | ${result.timestamp}`, sourceUrl: result.url, renderLargerThumbnail: true, mediaType: 1 } }
+        fileName: `${result.title}.mp3`,
+        contextInfo: result.thumbnail ? { externalAdReply: { thumbnailUrl: result.thumbnail, title: result.title, body: 'DENTSU MD V10', renderLargerThumbnail: true, mediaType: 1 } } : undefined,
       }, { quoted: msg });
       await sock.sendMessage(from, { react: { text: '🥹', key: msg.key } });
     } catch (e) { await reply(`❌ Audio download error: ${e.message}`); }
     return true;
   }
 
+  case 'spotify':
+  case 'spotifyplay': {
+    if (!text) return reply('❌ Provide a Spotify title or URL.\nExample: .spotify Believer');
+    try {
+      await reply('⏳ Searching Spotify and downloading audio...');
+      const result = await spotifyAudio(text);
+      await sock.sendMessage(from, {
+        audio: { url: result.url },
+        mimetype: 'audio/mpeg',
+        fileName: `${result.title}.mp3`,
+      }, { quoted: msg });
+    } catch (e) { await reply(`❌ Spotify download failed: ${e.message}`); }
+    return true;
+  }
+
+  case 'playdoc': {
+    if (!text) return reply('❌ Provide a song name.\nExample: .playdoc Believer');
+    try {
+      await reply('⏳ Preparing audio document...');
+      const result = await youtubeAudio(text);
+      await sock.sendMessage(from, {
+        document: { url: result.url },
+        mimetype: 'audio/mpeg',
+        fileName: `${result.title}.mp3`,
+      }, { quoted: msg });
+    } catch (e) { await reply(`❌ Audio document failed: ${e.message}`); }
+    return true;
+  }
+
   case 'mp4':
   case 'video':
+  case 'videodoc':
   case 'ytb':
+  case 'yt':
   case 'youtube': {
     if (!text) return reply('❌ Provide a video name.\nExample: .video Believer Imagine Dragons');
     try {
       await reply('⏳ Searching and downloading video...');
-      const yts = require('yt-search');
-      const search = await yts(text);
-      const result = search.all?.[0];
-      if (!result) return reply('❌ No results found.');
-      const res = await axios.get(`https://api.bk9.dev/download/ytmp4?url=${encodeURIComponent(result.url)}`);
-      const mp4 = res.data?.BK9?.downloadUrl || res.data?.downloadUrl;
-      if (!mp4) return reply('❌ Download failed. Try again.');
-      await sock.sendMessage(from, { video: { url: mp4 }, caption: `🎬 *${result.title}*\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
+      const result = await youtubeVideo(text);
+      await sock.sendMessage(from, { video: { url: result.url }, caption: `🎬 *${result.title}*\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
     } catch (e) { await reply(`❌ Video download error: ${e.message}`); }
+    return true;
+  }
+
+  case 'ytmp4': {
+    if (!text) return reply('❌ Provide a YouTube URL.\nExample: .ytmp4 https://youtu.be/...');
+    try {
+      await reply('⏳ Downloading MP4...');
+      const result = await youtubeVideo(text);
+      await sock.sendMessage(from, { video: { url: result.url }, caption: `🎬 *${result.title}*\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
+    } catch (e) { await reply(`❌ MP4 download failed: ${e.message}`); }
     return true;
   }
 
@@ -798,11 +838,8 @@ async function handleCommand(ctx) {
     if (!text) return reply('❌ Provide an app name.\nExample: .apk instagram');
     try {
       await reply('⏳ Searching APK...');
-      const res = await axios.get(`https://api.bk9.dev/download/apk?id=${encodeURIComponent(text)}`);
-      const data = res.data?.BK9 || res.data;
-      if (!data?.downloadUrl && !data?.apkUrl) return reply('❌ APK not found.');
-      const url = data.downloadUrl || data.apkUrl;
-      await sock.sendMessage(from, { document: { url }, mimetype: 'application/vnd.android.package-archive', fileName: `${text}.apk`, caption: `📦 *${text} APK*\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
+      const result = await apkDownload(text);
+      await sock.sendMessage(from, { document: { url: result.url }, mimetype: 'application/vnd.android.package-archive', fileName: `${result.title}.apk`, caption: `📦 *${result.title} APK*\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
     } catch (e) { await reply(`❌ APK download failed: ${e.message}`); }
     return true;
   }
@@ -811,11 +848,8 @@ async function handleCommand(ctx) {
     if (!text) return reply('❌ Provide a Facebook video URL.\nExample: .fb https://www.facebook.com/...');
     try {
       await reply('⏳ Downloading Facebook video...');
-      const res = await axios.get(`https://suhas-bro-api.vercel.app/download/fbdown?url=${encodeURIComponent(text)}`);
-      const data = res.data;
-      const videoUrl = data?.hd || data?.sd || data?.download;
-      if (!videoUrl) return reply('❌ Could not extract Facebook video.');
-      await sock.sendMessage(from, { video: { url: videoUrl }, caption: `📘 Facebook Video\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
+      const result = await facebookVideo(text);
+      await sock.sendMessage(from, { video: { url: result.url }, caption: `📘 Facebook Video\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
     } catch (e) { await reply(`❌ Facebook download failed: ${e.message}`); }
     return true;
   }
@@ -838,13 +872,38 @@ async function handleCommand(ctx) {
   case 'ytsearch': {
     if (!text) return reply('❌ Provide a search query.\nExample: .yts Believer');
     try {
-      const yts = require('yt-search');
-      const search = await yts(text);
-      const results = search.all.slice(0, 5);
+      const results = (await youtubeSearch(text)).slice(0, 5);
       let txt = `🔍 *YouTube Search: ${text}*\n\n`;
-      results.forEach((v, i) => { txt += `${i+1}. *${v.title}*\n   ⏱️ ${v.timestamp} | 👁️ ${v.views}\n   🔗 ${v.url}\n\n`; });
-      await sock.sendMessage(from, { image: { url: results[0]?.thumbnail }, caption: txt }, { quoted: msg });
+      results.forEach((v, i) => {
+        const url = v.url || v.videoUrl || v.link || v.video_url || '';
+        txt += `${i+1}. *${v.title || v.name || 'Sans titre'}*\n   ⏱️ ${v.timestamp || v.duration || v.durationText || 'N/A'} | 👁️ ${v.views || 'N/A'}\n   🔗 ${url}\n\n`;
+      });
+      if (!results.length) return reply('❌ No results found.');
+      await sock.sendMessage(from, { image: { url: results[0]?.thumbnail || results[0]?.image }, caption: txt }, { quoted: msg });
     } catch (e) { await reply(`❌ Search failed: ${e.message}`); }
+    return true;
+  }
+
+  case 'achar':
+  case 'character': {
+    const query = text || 'naruto';
+    try {
+      await reply(`🔍 Recherche du personnage: *${query}*...`);
+      const character = await characterSearch(query);
+      if (!character) return reply(`❌ Personnage "${query}" non trouvé.`);
+      const image = character.images?.jpg?.image_url || character.images?.webp?.image_url;
+      const caption = `🧙 *${character.name}*\n\n` +
+        `📚 Japanese: ${character.name_kanji || 'N/A'}\n` +
+        `⭐ Favoris: ${character.favorites ?? 'N/A'}\n` +
+        `🔗 ${character.url || 'N/A'}\n\n${config.BOT_FOOTER}`;
+      if (image) {
+        await sock.sendMessage(from, { image: { url: image }, caption }, { quoted: msg });
+      } else {
+        await reply(caption);
+      }
+    } catch (e) {
+      await reply(`❌ Character search failed: ${e.message}`);
+    }
     return true;
   }
 

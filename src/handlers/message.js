@@ -282,9 +282,14 @@ async function sendMainMenu(ctx) {
 │ ⬢ ${P}tt
 │ ⬢ ${P}tiktok
 │ ⬢ ${P}ytb
+│ ⬢ ${P}yt
 │ ⬢ ${P}youtube
+│ ⬢ ${P}videodoc
 │ ⬢ ${P}ytmp3
 │ ⬢ ${P}play
+│ ⬢ ${P}playdoc
+│ ⬢ ${P}spotify
+│ ⬢ ${P}ytmp4
 │ ⬢ ${P}yts
 │ ⬢ ${P}fb
 │ ⬢ ${P}insta
@@ -293,6 +298,7 @@ async function sendMainMenu(ctx) {
 │ ⬢ ${P}catbox
 │ ⬢ ${P}tourl
 │ ⬢ ${P}url
+│ ⬢ ${P}achar
 ╰──────────────────────╯
 
 ╭──[ ✧ 𝐎𝐖𝐍𝐄𝐑 𝐂𝐌𝐃 ✧ ]──╮

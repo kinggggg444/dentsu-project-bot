@@ -25,5 +25,9 @@ module.exports = {
   NEWSLETTER_JID: process.env.NEWSLETTER_JID || '120363423640959729@newsletter',
   WEBSITE: process.env.WEBSITE || 'https://dentsu-md-v10.onrender.com',
   TELEGRAM: process.env.TELEGRAM || 'https://t.me/Natsu_or_Dentsu',
+  // Optional provider credentials. Keep these in Render Environment Variables.
+  GIFTEDTECH_API_KEY: process.env.GIFTEDTECH_API_KEY || '',
+  THRESAV_API_KEY: process.env.THRESAV_API_KEY || '',
+  NEXORACLE_API_KEY: process.env.NEXORACLE_API_KEY || '',
   OTP_EXPIRY: 300000,
 };

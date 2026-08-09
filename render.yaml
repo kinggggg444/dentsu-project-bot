@@ -32,4 +32,11 @@ services:
         value: "50"
       - key: NODE_ENV
         value: "production"
+      # Add these three values privately in Render when using providers that require keys.
+      - key: GIFTEDTECH_API_KEY
+        sync: false
+      - key: THRESAV_API_KEY
+        sync: false
+      - key: NEXORACLE_API_KEY
+        sync: false
     healthCheckPath: /health
