@@ -116,13 +116,6 @@
       </div>
 
       <aside class="side-column">
-        <div class="status-card panel">
-          <div class="status-card-top"><span class="step-label" data-i18n="status_label">STATUT DU SYSTÈME</span><span class="status-check">✓</span></div>
-           <div class="status-main"><span class="big-status-dot"></span><div><strong id="availabilityLabel" data-i18n="online">Opérationnel</strong><small id="availabilityDetail" data-i18n="ready">Prêt à recevoir une connexion</small></div></div>
-           <div class="stats-row"><div><strong id="sessionCount"><%= sessions %></strong><span data-i18n="sessions">sessions actives</span></div><div><strong><%= maxSessions %></strong><span data-i18n="capacity">capacité totale</span></div><div><strong id="uptimeValue"><%= uptime %>s</strong><span data-i18n="uptime">disponibilité</span></div></div>
-          <div class="status-bar"><span id="statusBarFill" style="width:<%= Math.min(100, (sessions / Math.max(maxSessions, 1)) * 100) %>%"></span></div>
-        </div>
-
         <div class="guide-card panel">
           <span class="step-label">QUICK GUIDE</span>
           <h3 data-i18n="guide_title">Comment ça marche ?</h3>
