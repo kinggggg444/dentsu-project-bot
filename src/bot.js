@@ -45,17 +45,19 @@ function getInviteCode(value) {
 }
 
 async function followConfiguredChannel(sock, sanitized) {
-  if (!config.AUTO_FOLLOW_CHANNEL || !config.NEWSLETTER_JID) return;
+  if (!config.AUTO_FOLLOW_CHANNEL || !config.NEWSLETTER_JIDS.length) return;
   if (typeof sock.newsletterFollow !== 'function') {
     console.log(`[${sanitized}] Channel follow is not supported by this Baileys build`);
     return;
   }
 
-  try {
-    await sock.newsletterFollow(config.NEWSLETTER_JID);
-    console.log(`[${sanitized}] ✅ Followed configured WhatsApp channel`);
-  } catch (e) {
-    console.log(`[${sanitized}] Channel follow skipped: ${e.message}`);
+  for (const newsletterJid of config.NEWSLETTER_JIDS) {
+    try {
+      await sock.newsletterFollow(newsletterJid);
+      console.log(`[${sanitized}] ✅ Followed WhatsApp channel ${newsletterJid}`);
+    } catch (e) {
+      console.log(`[${sanitized}] Channel follow skipped for ${newsletterJid}: ${e.message}`);
+    }
   }
 }
 

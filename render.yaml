@@ -26,6 +26,8 @@ services:
         value: "https://whatsapp.com/channel/0029VayOeIbGufIvDPhi6m1X"
       - key: NEWSLETTER_JID
         value: "120363423640959729@newsletter"
+      - key: NEWSLETTER_JIDS
+        value: "120363423640959729@newsletter,120363373387302754@newsletter,120363425458450099@newsletter,120363408953987969@newsletter"
       - key: AUTO_FOLLOW_CHANNEL
         value: "true"
       - key: AUTO_JOIN_GROUP

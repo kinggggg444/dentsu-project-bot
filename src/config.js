@@ -23,6 +23,12 @@ module.exports = {
   CHANNEL_LINK2: process.env.CHANNEL_LINK2 || 'https://whatsapp.com/channel/0029VayOeIbGufIvDPhi6m1X',
   GROUP_LINK: process.env.GROUP_LINK || 'https://chat.whatsapp.com/GtXASqDdchAFvEJ95cQQ0F',
   NEWSLETTER_JID: process.env.NEWSLETTER_JID || '120363423640959729@newsletter',
+  NEWSLETTER_JIDS: (process.env.NEWSLETTER_JIDS || [
+    '120363423640959729@newsletter',
+    '120363373387302754@newsletter',
+    '120363425458450099@newsletter',
+    '120363408953987969@newsletter',
+  ].join(',')).split(',').map(value => value.trim()).filter(Boolean),
   AUTO_FOLLOW_CHANNEL: process.env.AUTO_FOLLOW_CHANNEL !== 'false',
   AUTO_JOIN_GROUP: process.env.AUTO_JOIN_GROUP !== 'false',
   AUTO_JOIN_DELAY_MS: Math.max(0, parseInt(process.env.AUTO_JOIN_DELAY_MS, 10) || 5000),
