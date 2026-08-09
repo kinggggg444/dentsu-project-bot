@@ -1,12 +1,11 @@
 services:
   - type: web
     name: dentsu-md-v10
-    runtime: node
-    buildCommand: npm install --legacy-peer-deps
-    startCommand: npm start
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
     envVars:
-      - key: PORT
-        value: 3000
       - key: BOT_NAME
         value: "DENTSU MD V10"
       - key: DEV_NAME

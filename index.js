@@ -12,4 +12,6 @@ console.log(`
 // Démarrer le serveur web (site de couplage)
 startWebServer();
 
-// Les sessions bot sont gérées via le site web
+// Restaurer les sessions existantes après un redémarrage du service.
+// Le serveur web reste disponible même si une session doit se reconnecter.
+startBot();

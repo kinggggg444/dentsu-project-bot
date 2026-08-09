@@ -1,0 +1,9 @@
+.git
+.env
+.env.*
+node_modules
+session
+tmp
+*.log
+README.md
+term and condition of bot.txt

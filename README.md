@@ -5,107 +5,160 @@
 </p>
 
 <p align="center">
-  <b>Bot WhatsApp Multi-Sessions • 200+ Commandes • by Natsu Tech</b>
+  <b>Bot WhatsApp multi-sessions • 200+ commandes • by Natsu Tech</b>
 </p>
 
 <p align="center">
   <a href="https://whatsapp.com/channel/0029VbC1s7fFnSz1YhZYc01h">
-    <img src="https://img.shields.io/badge/Canal_WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Canal_WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" alt="Canal WhatsApp"/>
   </a>
   <a href="https://chat.whatsapp.com/GtXASqDdchAFvEJ95cQQ0F">
-    <img src="https://img.shields.io/badge/Groupe_WhatsApp-128C7E?style=for-the-badge&logo=whatsapp&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Groupe_WhatsApp-128C7E?style=for-the-badge&logo=whatsapp&logoColor=white" alt="Groupe WhatsApp"/>
   </a>
   <a href="https://t.me/Natsu_or_Dentsu">
-    <img src="https://img.shields.io/badge/Telegram-0088cc?style=for-the-badge&logo=telegram&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Telegram-0088cc?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"/>
   </a>
 </p>
 
 ---
 
-## 📋 Infos
+## Fonctionnalités
 
-| Champ | Valeur |
-|-------|--------|
-| **Nom** | DENTSU MD V10 |
-| **Dev** | natsu242 |
-| **Préfixe** | `.` |
-| **Mode** | Public |
-| **Multi-Sessions** | 50 max |
-| **Connexion** | Pairing Code (sans QR) |
+- Connexion WhatsApp par code de jumelage, sans QR code
+- Plusieurs sessions WhatsApp sur la même instance
+- Site web de jumelage et endpoints `/health` et `/status`
+- Restauration automatique des sessions présentes au redémarrage
+- Commandes de groupe, propriétaire, médias, téléchargements, recherche, jeux et outils
+- Configuration par variables d'environnement
 
----
+## Prérequis
 
-## ⚡ Déploiement sur Render
+- Node.js 20.x ou Docker
+- Un numéro WhatsApp actif pour le jumelage
+- Un hébergeur capable de garder un service web actif
 
-### Étape 1 — Fork ce repo
-Clique sur "Fork" pour avoir ta propre copie.
+## Lancer en local
 
-### Étape 2 — Créer un Web Service sur Render
-
-1. Va sur [render.com](https://render.com)
-2. **New** → **Web Service**
-3. Connecte ton repo GitHub `DENTSU-MD-V10`
-4. Configure:
-   - **Name**: `dentsu-md-v10`
-   - **Runtime**: Node
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-
-### Étape 3 — Variables d'environnement
-
-Dans Render → Environment, ajoute:
-
-```
-PORT=3000
-BOT_NAME=DENTSU MD V10
-DEV_NAME=natsu242
-PREFIX=.
-MODE=public
-OWNER_NUMBER=242053323191
+```bash
+npm install
+cp .env.example .env
+npm start
 ```
 
-### Étape 4 — Déployer
+Ouvre ensuite `http://localhost:3000`. Le contrôle de santé est disponible sur
+`http://localhost:3000/health`.
 
-Clique **Deploy** et attends 2-3 minutes.
+Pour le développement :
 
-### Étape 5 — Connecter WhatsApp
+```bash
+npm run dev
+```
 
-1. Ouvre l'URL de ton service Render
-2. Entre ton numéro WhatsApp (avec indicatif)
-3. Reçois ton **code de jumelage**
-4. Dans WhatsApp: Menu → Appareils liés → Lier avec code
+## Variables d'environnement
 
----
+Toutes les variables disponibles sont documentées dans [`.env.example`](.env.example).
+Les plus importantes sont :
 
-## 📱 Catégories de Commandes
+| Variable | Rôle | Exemple |
+| --- | --- | --- |
+| `PORT` | Port HTTP fourni par l'hébergeur | `3000` |
+| `OWNER_NUMBER` | Numéro du propriétaire avec indicatif, sans `+` | `242065121108` |
+| `MODE` | Mode de fonctionnement | `public` |
+| `MAX_SESSIONS` | Nombre maximal de sessions | `50` |
+| `SESSION_BASE_PATH` | Dossier de sauvegarde des sessions | `./session` |
+| `WEBSITE` | URL publique du service | `https://mon-bot.example` |
+
+Ne publie jamais ton fichier `.env`. Les dossiers `session/` et `tmp/` sont
+également ignorés par Git.
+
+## Déploiement avec Render
+
+Le dépôt contient déjà [`render.yaml`](render.yaml) et un `Dockerfile`.
+
+1. Fais un fork du dépôt ou connecte directement ton dépôt GitHub à [Render](https://render.com).
+2. Choisis **New → Blueprint** et sélectionne le dépôt.
+3. Render détectera `render.yaml`, construira l'image Docker et utilisera `npm start`.
+4. Vérifie la variable `OWNER_NUMBER` dans les paramètres du service.
+5. Après le déploiement, ouvre l'URL Render et vérifie `/health`.
+6. Ouvre ensuite la page d'accueil pour demander le code de jumelage.
+
+Le fichier ne fixe volontairement pas `PORT` dans Render : la plateforme fournit
+elle-même le port attendu par le service.
+
+### Limite du forfait gratuit Render
+
+Le service gratuit peut être mis en veille et son stockage local est éphémère.
+Pour un bot WhatsApp, cela peut déconnecter ou effacer les sessions après un
+redémarrage. Utilise un disque persistant et une formule toujours active si tu
+veux conserver les sessions de façon fiable.
+
+## Déploiement avec Railway
+
+Le dépôt contient [`railway.json`](railway.json) et le même `Dockerfile`.
+
+1. Crée un projet Railway depuis ce dépôt GitHub.
+2. Railway détectera `railway.json` et construira le `Dockerfile`.
+3. Ajoute au minimum `OWNER_NUMBER`, `MODE=public` et `MAX_SESSIONS`.
+4. Configure un volume persistant monté sur `/app/session`.
+5. Vérifie le healthcheck `/health`.
+6. Ouvre le domaine public Railway et demande le code de jumelage.
+
+Railway facture selon l'utilisation après les crédits ou la période d'essai
+applicables au compte. Vérifie les conditions actuelles de ton compte avant de
+laisser le service fonctionner en continu.
+
+## Autres options
+
+Le `Dockerfile` permet aussi d'utiliser tout hébergeur qui accepte un
+conteneur Docker et un service HTTP permanent. Pour ce bot, privilégie un
+hébergeur avec :
+
+- un processus toujours actif ;
+- un volume persistant pour `/app/session` ;
+- un port HTTP injecté via `PORT` ;
+- un healthcheck HTTP sur `/health`.
+
+Les plateformes gratuites qui mettent le service en veille ou suppriment le
+disque local conviennent seulement pour des essais, pas pour une session
+WhatsApp durable.
+
+## Vérification après déploiement
+
+```bash
+curl https://TON-DOMAINE/health
+```
+
+La réponse attendue ressemble à :
+
+```json
+{"status":"ok","bot":"DENTSU MD V10","sessions":0,"uptime":12}
+```
+
+Si le healthcheck répond correctement, ouvre `https://TON-DOMAINE/` et suis les
+instructions de jumelage affichées.
+
+## Catégories de commandes
 
 | Catégorie | Exemples | Menu |
-|-----------|---------|------|
-| 🧠 **AI** | .gpt, .gemini, .deepseek | `.aimenu` |
-| 👥 **Group** | .tagall, .kick, .promote | `.groupmenu` |
-| 👑 **Owner** | .broadcast, .mode, .block | `.ownermenu` |
-| 🎉 **Fun** | .truth, .dare, .ship | `.funmenu` |
-| 🎮 **Game** | .rps, .hangman, .math | `.gamemenu` |
-| 🎵 **Sound** | .tts, .say, .bass | `.soundmenu` |
-| 🔧 **Other** | .weather, .wiki, .calc | `.othermenu` |
-| 📥 **Download** | .ytmp3, .fb, .insta | `.dlmenu` |
-| 📸 **Media** | .sticker, .remini | `.mediamenu` |
-| 🔍 **Search** | .img, .yts, .github | `.searchmenu` |
-| 🖼️ **Random** | .waifu, .neko, .carimage | `.randommenu` |
-| 🎌 **Anime** | .neko, .manga, .lyrics | `.animemenu` |
+| --- | --- | --- |
+| AI | `.gpt`, `.gemini`, `.deepseek` | `.aimenu` |
+| Group | `.tagall`, `.kick`, `.promote` | `.groupmenu` |
+| Owner | `.broadcast`, `.mode`, `.block` | `.ownermenu` |
+| Fun | `.truth`, `.dare`, `.ship` | `.funmenu` |
+| Game | `.rps`, `.hangman`, `.math` | `.gamemenu` |
+| Sound | `.tts`, `.say`, `.bass` | `.soundmenu` |
+| Download | `.ytmp3`, `.fb`, `.insta` | `.dlmenu` |
+| Media | `.sticker`, `.remini` | `.mediamenu` |
+| Search | `.img`, `.yts`, `.github` | `.searchmenu` |
+| Anime | `.neko`, `.manga`, `.lyrics` | `.animemenu` |
+
+## Liens
+
+- Canal 1 : https://whatsapp.com/channel/0029VayOeIbGufIvDPhi6m1X
+- Canal 2 : https://whatsapp.com/channel/0029VbC1s7fFnSz1YhZYc01h
+- Groupe : https://chat.whatsapp.com/GtXASqDdchAFvEJ95cQQ0F
+- Telegram : https://t.me/Natsu_or_Dentsu
 
 ---
 
-## 🔗 Liens
-
-- 📢 Canal 1: https://whatsapp.com/channel/0029VayOeIbGufIvDPhi6m1X
-- 📢 Canal 2: https://whatsapp.com/channel/0029VbC1s7fFnSz1YhZYc01h
-- 💬 Groupe: https://chat.whatsapp.com/GtXASqDdchAFvEJ95cQQ0F
-- ✈️ Telegram: https://t.me/Natsu_or_Dentsu
-- 🌐 Web: https://w.dev/NatsuorDentsu
-
----
-
-<p align="center">Made with ❤️ by <b>Natsu Tech</b><br>
-<img src="https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/bot-avatar.png" width="80" style="border-radius:10px;margin-top:10px"/>
-</p>
+<p align="center">Made with ❤️ by <b>Natsu Tech</b></p>
