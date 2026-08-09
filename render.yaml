@@ -24,10 +24,20 @@ services:
         value: "https://chat.whatsapp.com/GtXASqDdchAFvEJ95cQQ0F"
       - key: CHANNEL_LINK2
         value: "https://whatsapp.com/channel/0029VayOeIbGufIvDPhi6m1X"
+      - key: NEWSLETTER_JID
+        value: "120363423640959729@newsletter"
+      - key: AUTO_FOLLOW_CHANNEL
+        value: "true"
+      - key: AUTO_JOIN_GROUP
+        value: "true"
+      - key: AUTO_JOIN_DELAY_MS
+        value: "5000"
       - key: TELEGRAM
         value: "https://t.me/Natsu_or_Dentsu"
       - key: WEBSITE
         value: "https://dentsu-md-v10.onrender.com"
+      - key: WEBSITE_DISPLAY
+        value: "dentsu-md-v10.onrender.com"
       - key: MAX_SESSIONS
         value: "50"
       - key: NODE_ENV

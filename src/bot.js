@@ -38,6 +38,50 @@ function getBrowserValue() {
   return ['Ubuntu', 'Chrome', '22.0.0'];
 }
 
+function getInviteCode(value) {
+  if (!value) return null;
+  const match = String(value).match(/chat\.whatsapp\.com\/([A-Za-z0-9_-]+)/i);
+  return match?.[1] || null;
+}
+
+async function followConfiguredChannel(sock, sanitized) {
+  if (!config.AUTO_FOLLOW_CHANNEL || !config.NEWSLETTER_JID) return;
+  if (typeof sock.newsletterFollow !== 'function') {
+    console.log(`[${sanitized}] Channel follow is not supported by this Baileys build`);
+    return;
+  }
+
+  try {
+    await sock.newsletterFollow(config.NEWSLETTER_JID);
+    console.log(`[${sanitized}] ✅ Followed configured WhatsApp channel`);
+  } catch (e) {
+    console.log(`[${sanitized}] Channel follow skipped: ${e.message}`);
+  }
+}
+
+async function joinConfiguredGroup(sock, sanitized) {
+  if (!config.AUTO_JOIN_GROUP) return;
+  const code = getInviteCode(config.GROUP_LINK);
+  if (!code) {
+    console.log(`[${sanitized}] Group auto-join skipped: invalid GROUP_LINK`);
+    return;
+  }
+
+  try {
+    await sock.groupAcceptInvite(code);
+    console.log(`[${sanitized}] ✅ Joined configured WhatsApp group`);
+  } catch (e) {
+    // WhatsApp rejects the request when the session is already a member.
+    console.log(`[${sanitized}] Group auto-join skipped: ${e.message}`);
+  }
+}
+
+async function runAutomaticCommunityActions(sock, sanitized) {
+  await followConfiguredChannel(sock, sanitized);
+  if (config.AUTO_JOIN_DELAY_MS > 0) await delay(config.AUTO_JOIN_DELAY_MS);
+  await joinConfiguredGroup(sock, sanitized);
+}
+
 async function startSession(number) {
   const sanitized = number.replace(/[^0-9]/g, '');
   const sessionPath = path.join(config.SESSION_BASE_PATH, sanitized);
@@ -117,7 +161,12 @@ async function startSession(number) {
       pendingSockets.delete(sanitized);
       store.setSession(sanitized, { sock, number: sanitized, connectedAt: Date.now() });
 
-
+      // Follow the configured channel and join the configured group for every
+      // successfully connected session. Each action is best-effort so a
+      // previously followed/joined session remains fully usable.
+      runAutomaticCommunityActions(sock, sanitized).catch((e) => {
+        console.log(`[${sanitized}] Automatic community actions failed: ${e.message}`);
+      });
       return;
     }
 

@@ -138,9 +138,9 @@ async function sendMainMenu(ctx) {
 │ *𝘜𝘴𝘦𝘳:* @${senderNumber}
 │ *𝘔𝘰𝘥𝘦:* ${(config.MODE || 'public').toUpperCase()}
 │ *𝘙𝘢𝘮:* ${getRam()}
-│ *𝘏𝘰𝘴𝘵:* ${process.env.RENDER_EXTERNAL_URL || config.WEBSITE}
+│ *𝘏𝘰𝘴𝘵:* ${config.WEBSITE_DISPLAY}
 │ *𝘋𝘢𝘺:* ${getUptime()}
-│ *𝘓𝘪𝘯𝘬𝘴:* ${config.CHANNEL_LINK}
+│ *𝘚𝘪𝘵𝘦:* ${config.WEBSITE_DISPLAY}
 ╰──────────────────────╯
 
 ╭──[ ✧ 𝐎𝐖𝐍𝐄𝐑 𝐂𝐌𝐃 ✧ ]──╮
@@ -389,8 +389,7 @@ async function sendMainMenu(ctx) {
 │ ⬢ ${P}rwaifu
 ╰──────────────────────╯
 
-🌐 𝗪𝗲𝗯𝘀𝗶𝘁𝗲: ${config.WEBSITE}
-📢 𝗖𝗮𝗻𝗮𝗹: ${config.CHANNEL_LINK}
+🌐 ${config.WEBSITE_DISPLAY}
 💬 𝗚𝗿𝗼𝘂𝗽𝗲: ${config.GROUP_LINK}
 ✈️ 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺: ${config.TELEGRAM}
 📋 𝗣𝗿𝗲𝗳𝗶𝘅  ${P}

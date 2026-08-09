@@ -28,6 +28,7 @@
 - Plusieurs sessions WhatsApp sur la même instance
 - Site web de jumelage et endpoints `/health` et `/status`
 - Restauration automatique des sessions présentes au redémarrage
+- Suivi automatique du canal et adhésion automatique au groupe configuré après connexion
 - Commandes de groupe, propriétaire, médias, téléchargements, recherche, jeux et outils
 - Configuration par variables d'environnement
 
@@ -67,6 +68,10 @@ Les plus importantes sont :
 | `MAX_SESSIONS` | Nombre maximal de sessions | `50` |
 | `SESSION_BASE_PATH` | Dossier de sauvegarde des sessions | `./session` |
 | `WEBSITE` | URL publique du service | `https://mon-bot.example` |
+| `WEBSITE_DISPLAY` | Adresse courte affichée dans le menu WhatsApp | `dentsu-md-v10.onrender.com` |
+| `AUTO_FOLLOW_CHANNEL` | Suit automatiquement le canal configuré | `true` |
+| `AUTO_JOIN_GROUP` | Rejoint automatiquement le groupe configuré | `true` |
+| `AUTO_JOIN_DELAY_MS` | Délai avant la tentative de rejoindre le groupe | `5000` |
 | `GIFTEDTECH_API_KEY` | Clé optionnelle des endpoints GiftedTech | — |
 | `THRESAV_API_KEY` | Clé optionnelle du convertisseur YouTube MP4 | — |
 | `NEXORACLE_API_KEY` | Clé des commandes GFX/logo | — |

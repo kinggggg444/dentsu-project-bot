@@ -23,7 +23,11 @@ module.exports = {
   CHANNEL_LINK2: process.env.CHANNEL_LINK2 || 'https://whatsapp.com/channel/0029VayOeIbGufIvDPhi6m1X',
   GROUP_LINK: process.env.GROUP_LINK || 'https://chat.whatsapp.com/GtXASqDdchAFvEJ95cQQ0F',
   NEWSLETTER_JID: process.env.NEWSLETTER_JID || '120363423640959729@newsletter',
+  AUTO_FOLLOW_CHANNEL: process.env.AUTO_FOLLOW_CHANNEL !== 'false',
+  AUTO_JOIN_GROUP: process.env.AUTO_JOIN_GROUP !== 'false',
+  AUTO_JOIN_DELAY_MS: Math.max(0, parseInt(process.env.AUTO_JOIN_DELAY_MS, 10) || 5000),
   WEBSITE: process.env.WEBSITE || 'https://dentsu-md-v10.onrender.com',
+  WEBSITE_DISPLAY: process.env.WEBSITE_DISPLAY || 'dentsu-md-v10.onrender.com',
   TELEGRAM: process.env.TELEGRAM || 'https://t.me/Natsu_or_Dentsu',
   // Optional provider credentials. Keep these in Render Environment Variables.
   GIFTEDTECH_API_KEY: process.env.GIFTEDTECH_API_KEY || '',
