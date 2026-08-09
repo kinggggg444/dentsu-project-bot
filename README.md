@@ -1,7 +1,7 @@
 # DENTSU MD V10
 
 <p align="center">
-  <img src="https://files.catbox.moe/2ej8eo.jpg" alt="DENTSU MD V10" width="300" style="border-radius:20px"/>
+  <img src="https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/bot-avatar.png" alt="DENTSU MD V10" width="300" style="border-radius:20px"/>
 </p>
 
 <p align="center">
@@ -107,5 +107,5 @@ Clique **Deploy** et attends 2-3 minutes.
 ---
 
 <p align="center">Made with ❤️ by <b>Natsu Tech</b><br>
-<img src="https://files.catbox.moe/2ej8eo.jpg" width="80" style="border-radius:10px;margin-top:10px"/>
+<img src="https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/bot-avatar.png" width="80" style="border-radius:10px;margin-top:10px"/>
 </p>

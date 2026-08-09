@@ -1,6 +1,19 @@
 // ═══ TRADUCTIONS — 10 LANGUES ═══
 const TRANSLATIONS = {
   fr: {
+    live: 'Système en ligne',
+    secure: 'Connexion sécurisée',
+    multi: 'multi-sessions',
+    number_label: 'Numéro WhatsApp',
+    status_label: 'STATUT DU SYSTÈME',
+    online: 'Opérationnel',
+    ready: 'Prêt à recevoir une connexion',
+    sessions: 'sessions actives',
+    capacity: 'capacité totale',
+    guide_title: 'Comment ça marche ?',
+    guide_one: 'Entre ton numéro avec l’indicatif pays.',
+    guide_two: 'Récupère ton code unique.',
+    guide_three: 'Valide-le dans Appareils liés.',
     h2_connect: '📱 Connecter WhatsApp',
     subtitle_connect: 'Entre ton numéro avec le code pays pour obtenir ton code de jumelage',
     hint: '⚠️ Inclure le code pays sans le + (ex: <strong>242</strong>XXXXXXXX)',
@@ -30,6 +43,19 @@ const TRANSLATIONS = {
     ]
   },
   en: {
+    live: 'System online',
+    secure: 'Secure connection',
+    multi: 'multi-session',
+    number_label: 'WhatsApp number',
+    status_label: 'SYSTEM STATUS',
+    online: 'Operational',
+    ready: 'Ready to receive a connection',
+    sessions: 'active sessions',
+    capacity: 'total capacity',
+    guide_title: 'How does it work?',
+    guide_one: 'Enter your number with the country code.',
+    guide_two: 'Get your unique pairing code.',
+    guide_three: 'Confirm it in Linked Devices.',
     h2_connect: '📱 Connect WhatsApp',
     subtitle_connect: 'Enter your number with country code to get your pairing code',
     hint: '⚠️ Include country code without + (e.g. <strong>242</strong>XXXXXXXX)',
@@ -423,7 +449,26 @@ window.addEventListener('DOMContentLoaded', () => {
     const observer = new MutationObserver(syncCodeInSteps);
     observer.observe(codeValue, { childList: true, characterData: true, subtree: true });
   }
+
+  refreshStatus();
+  window.setInterval(refreshStatus, 20000);
 });
+
+async function refreshStatus() {
+  try {
+    const response = await fetch('/status', { headers: { Accept: 'application/json' } });
+    if (!response.ok) return;
+    const status = await response.json();
+    const count = Number(status.count) || 0;
+    const max = Number(status.max) || 1;
+    const countElement = document.getElementById('sessionCount');
+    const fillElement = document.getElementById('statusBarFill');
+    if (countElement) countElement.textContent = count;
+    if (fillElement) fillElement.style.width = `${Math.min(100, (count / max) * 100)}%`;
+  } catch (_) {
+    // The pairing flow remains available if the status endpoint is temporarily unavailable.
+  }
+}
 
 function showError(msg) {
   const d = document.getElementById('result');

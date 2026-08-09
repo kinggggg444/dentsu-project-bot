@@ -17,7 +17,7 @@ module.exports = {
   AUTO_TYPING: process.env.AUTO_TYPING === 'true',
   AUTO_LIKE_EMOJI: ['💋','😶','✨️','💗','🎈','🎉','🥳','❤️','🧫','🇨🇬'],
   MAX_RETRIES: 3,
-  MENU_IMAGE: process.env.MENU_IMAGE || 'https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/menu.png',
+  MENU_IMAGE: process.env.MENU_IMAGE || 'https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/bot-avatar.png',
   RCD_IMAGE: process.env.RCD_IMAGE || 'https://files.catbox.moe/s1ggtt.jpeg',
   CHANNEL_LINK: process.env.CHANNEL_LINK || 'https://whatsapp.com/channel/0029VbC1s7fFnSz1YhZYc01h',
   CHANNEL_LINK2: 'https://whatsapp.com/channel/0029VayOeIbGufIvDPhi6m1X',

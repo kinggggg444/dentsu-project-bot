@@ -1234,7 +1234,7 @@ async function handleCommand(ctx) {
   case 'pair':
   case 'connect': {
     if (!isOwner) return reply('❌ Owner only.');
-    const WEBSITE = process.env.WEBSITE || 'dentsu-md-v7.onrender.com';
+    const WEBSITE = process.env.WEBSITE || 'dentsu-md-v10.onrender.com';
     const websiteUrl = WEBSITE.startsWith('http') ? WEBSITE : 'https://' + WEBSITE;
     await reply(`🔗 *Bot Pairing Link:*\n${websiteUrl}\n\n_Open this link, enter your WhatsApp number with country code, and follow the steps to connect the bot._`);
     return true;

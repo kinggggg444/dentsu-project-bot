@@ -18,7 +18,7 @@ services:
       - key: OWNER_NUMBER
         value: "242065121108"
       - key: MENU_IMAGE
-        value: "https://files.catbox.moe/2ej8eo.jpg"
+        value: "https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/bot-avatar.png"
       - key: CHANNEL_LINK
         value: "https://whatsapp.com/channel/0029VbC1s7fFnSz1YhZYc01h"
       - key: GROUP_LINK

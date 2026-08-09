@@ -3,95 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= botName %> — Connection Site</title>
+  <meta name="theme-color" content="#090714">
+  <meta name="description" content="Connecte ton WhatsApp à DENTSU MD V10 avec un code de jumelage sécurisé.">
+  <title><%= botName %> — Pairing Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <div class="bg-glow"></div>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="noise"></div>
 
-  <!-- ═══ SÉLECTION DE LANGUE ═══ -->
   <div id="langOverlay" class="lang-overlay">
     <div class="lang-card">
-      <img src="<%= menuImage %>" alt="Bot" class="lang-bot-image" onerror="this.style.display='none'">
-      <h1 class="lang-title">🤖 <%= botName %></h1>
-      <p class="lang-subtitle">by <%= devName %></p>
+      <div class="brand-mark brand-mark-large">
+        <img src="<%= menuImage %>" alt="Mascotte <%= botName %>" class="lang-bot-image">
+        <span class="brand-orbit"></span>
+      </div>
+      <span class="eyebrow">PAIRING CENTER / 10.0</span>
+      <h1 class="lang-title"><%= botName %></h1>
+      <p class="lang-subtitle">Choisis ta langue pour commencer</p>
       <div class="lang-flags-grid">
-        <button class="flag-btn" onclick="setLang('fr')"><img src="https://flagcdn.com/48x36/fr.png" alt="Français"></button>
-        <button class="flag-btn" onclick="setLang('en')"><img src="https://flagcdn.com/48x36/us.png" alt="English"></button>
-        <button class="flag-btn" onclick="setLang('es')"><img src="https://flagcdn.com/48x36/es.png" alt="Español"></button>
-        <button class="flag-btn" onclick="setLang('zh')"><img src="https://flagcdn.com/48x36/cn.png" alt="中文"></button>
-        <button class="flag-btn" onclick="setLang('hi')"><img src="https://flagcdn.com/48x36/in.png" alt="हिन्दी"></button>
-        <button class="flag-btn" onclick="setLang('ar')"><img src="https://flagcdn.com/48x36/sa.png" alt="العربية"></button>
-        <button class="flag-btn" onclick="setLang('pt')"><img src="https://flagcdn.com/48x36/br.png" alt="Português"></button>
-        <button class="flag-btn" onclick="setLang('ru')"><img src="https://flagcdn.com/48x36/ru.png" alt="Русский"></button>
-        <button class="flag-btn" onclick="setLang('bn')"><img src="https://flagcdn.com/48x36/bd.png" alt="বাংলা"></button>
-        <button class="flag-btn" onclick="setLang('id')"><img src="https://flagcdn.com/48x36/id.png" alt="Indonesia"></button>
+        <button class="flag-btn" onclick="setLang('fr')"><img src="https://flagcdn.com/48x36/fr.png" alt="Français"><span>FR</span></button>
+        <button class="flag-btn" onclick="setLang('en')"><img src="https://flagcdn.com/48x36/us.png" alt="English"><span>EN</span></button>
+        <button class="flag-btn" onclick="setLang('es')"><img src="https://flagcdn.com/48x36/es.png" alt="Español"><span>ES</span></button>
+        <button class="flag-btn" onclick="setLang('zh')"><img src="https://flagcdn.com/48x36/cn.png" alt="中文"><span>中文</span></button>
+        <button class="flag-btn" onclick="setLang('hi')"><img src="https://flagcdn.com/48x36/in.png" alt="हिन्दी"><span>HI</span></button>
+        <button class="flag-btn" onclick="setLang('ar')"><img src="https://flagcdn.com/48x36/sa.png" alt="العربية"><span>AR</span></button>
+        <button class="flag-btn" onclick="setLang('pt')"><img src="https://flagcdn.com/48x36/br.png" alt="Português"><span>PT</span></button>
+        <button class="flag-btn" onclick="setLang('ru')"><img src="https://flagcdn.com/48x36/ru.png" alt="Русский"><span>RU</span></button>
+        <button class="flag-btn" onclick="setLang('bn')"><img src="https://flagcdn.com/48x36/bd.png" alt="বাংলা"><span>BN</span></button>
+        <button class="flag-btn" onclick="setLang('id')"><img src="https://flagcdn.com/48x36/id.png" alt="Indonesia"><span>ID</span></button>
       </div>
     </div>
   </div>
 
-  <!-- ═══ PAGE PRINCIPALE ═══ -->
-  <div class="container" id="mainContent" style="display:none;">
-
-    <!-- Mini drapeaux (switcher) -->
-    <div class="lang-mini-switcher">
-      <button class="flag-mini active-flag" id="flag-fr" onclick="setLang('fr')"><img src="https://flagcdn.com/24x18/fr.png" alt="fr"></button>
-      <button class="flag-mini" id="flag-en" onclick="setLang('en')"><img src="https://flagcdn.com/24x18/us.png" alt="en"></button>
-      <button class="flag-mini" id="flag-es" onclick="setLang('es')"><img src="https://flagcdn.com/24x18/es.png" alt="es"></button>
-      <button class="flag-mini" id="flag-zh" onclick="setLang('zh')"><img src="https://flagcdn.com/24x18/cn.png" alt="zh"></button>
-      <button class="flag-mini" id="flag-hi" onclick="setLang('hi')"><img src="https://flagcdn.com/24x18/in.png" alt="hi"></button>
-      <button class="flag-mini" id="flag-ar" onclick="setLang('ar')"><img src="https://flagcdn.com/24x18/sa.png" alt="ar"></button>
-      <button class="flag-mini" id="flag-pt" onclick="setLang('pt')"><img src="https://flagcdn.com/24x18/br.png" alt="pt"></button>
-      <button class="flag-mini" id="flag-ru" onclick="setLang('ru')"><img src="https://flagcdn.com/24x18/ru.png" alt="ru"></button>
-      <button class="flag-mini" id="flag-bn" onclick="setLang('bn')"><img src="https://flagcdn.com/24x18/bd.png" alt="bn"></button>
-      <button class="flag-mini" id="flag-id" onclick="setLang('id')"><img src="https://flagcdn.com/24x18/id.png" alt="id"></button>
-    </div>
-
-    <!-- Header -->
-    <div class="header">
-      <img src="<%= menuImage %>" alt="Menu" class="bot-image" onerror="this.style.display='none'">
-      <h1 class="bot-name">🤖 <%= botName %></h1>
-      <p class="dev-name">by <%= devName %></p>
-    </div>
-
-    <!-- Card connexion -->
-    <div class="card">
-      <h2 data-i18n="h2_connect">📱 Connecter WhatsApp</h2>
-      <p class="subtitle" data-i18n="subtitle_connect">Entre ton numéro avec le code pays pour obtenir ton code de jumelage</p>
-
-      <form id="pairForm">
-        <div class="input-group">
-          <span class="flag">🌍</span>
-          <input type="tel" id="number" placeholder="Ex: 242xxx" maxlength="15" autocomplete="off" inputmode="numeric">
+  <main class="shell" id="mainContent" style="display:none;">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Accueil DENTSU MD V10">
+        <span class="brand-icon"><img src="<%= menuImage %>" alt=""></span>
+        <span class="brand-copy"><strong><%= botName %></strong><small>PAIRING CENTER</small></span>
+      </a>
+      <div class="top-actions">
+        <span class="live-pill"><i class="pulse-dot"></i><span data-i18n="live">Système en ligne</span></span>
+        <div class="lang-mini-switcher" aria-label="Changer de langue">
+          <button class="flag-mini active-flag" id="flag-fr" onclick="setLang('fr')"><img src="https://flagcdn.com/24x18/fr.png" alt="FR"></button>
+          <button class="flag-mini" id="flag-en" onclick="setLang('en')"><img src="https://flagcdn.com/24x18/us.png" alt="EN"></button>
+          <button class="flag-mini" id="flag-es" onclick="setLang('es')"><img src="https://flagcdn.com/24x18/es.png" alt="ES"></button>
+          <button class="flag-mini" id="flag-ar" onclick="setLang('ar')"><img src="https://flagcdn.com/24x18/sa.png" alt="AR"></button>
         </div>
-        <p class="hint" data-i18n="hint">⚠️ Inclure le code pays sans le + (ex: <strong>242</strong>XXXXXXXX)</p>
-        <button id="pairBtn" type="submit" data-i18n="btn_pair">📲 Obtenir mon code</button>
-      </form>
+      </div>
+    </header>
 
-      <div id="result" style="display:none;" class="result"></div>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="eyebrow-line"></span> WHATSAPP AUTOMATION / V10</span>
+        <h1>Ton WhatsApp.<br><span>Ton assistant.</span><br>En quelques secondes.</h1>
+        <p class="hero-lede">Connecte ton numéro à une expérience bot rapide, stable et pensée pour rester simple à utiliser.</p>
+        <div class="hero-meta">
+          <span><b class="meta-dot"></b><span data-i18n="secure">Connexion sécurisée</span></span>
+          <span><b>V10</b> <span data-i18n="multi">multi-sessions</span></span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="visual-halo"></div>
+        <div class="visual-ring ring-a"></div>
+        <div class="visual-ring ring-b"></div>
+        <img src="<%= menuImage %>" alt="Mascotte robot <%= botName %>" class="bot-image">
+        <div class="visual-tag tag-top"><span class="tag-dot"></span> ONLINE</div>
+        <div class="visual-tag tag-bottom"><span>WA</span> READY TO PAIR</div>
+      </div>
+    </section>
 
-      <div id="codeDisplay" style="display:none;" class="code-box">
-        <p class="code-label" data-i18n="code_label">🔑 Ton code de jumelage :</p>
-        <div class="code-value" id="codeValue"></div>
-        <button id="copyBtn" class="copy-btn" data-i18n="btn_copy">📋 Copier le code</button>
+    <section class="dashboard-grid">
+      <div class="pair-card panel">
+        <div class="panel-heading">
+          <div>
+            <span class="step-label">01 / CONNECT</span>
+            <h2 data-i18n="h2_connect">Connecter WhatsApp</h2>
+          </div>
+          <span class="panel-number">01</span>
+        </div>
+        <p class="subtitle" data-i18n="subtitle_connect">Entre ton numéro avec le code pays pour obtenir ton code de jumelage.</p>
+
+        <form id="pairForm">
+          <label for="number" class="field-label" data-i18n="number_label">Numéro WhatsApp</label>
+          <div class="input-group">
+            <span class="input-prefix">+</span>
+            <input type="tel" id="number" placeholder="242 06 12 34 56" maxlength="15" autocomplete="off" inputmode="numeric" aria-describedby="numberHint">
+            <span class="input-status">WA</span>
+          </div>
+          <p class="hint" id="numberHint" data-i18n="hint">Indicatif pays inclus, sans le +. Exemple : <strong>242</strong>XXXXXXXX</p>
+          <button id="pairBtn" type="submit" data-i18n="btn_pair"><span>Obtenir mon code</span><b>↗</b></button>
+        </form>
+
+        <div id="result" style="display:none;" class="result"></div>
+
+        <div id="codeDisplay" style="display:none;" class="code-box">
+          <div class="code-topline"><span class="step-label">PAIRING CODE</span><span class="code-live"><i class="pulse-dot"></i> LIVE</span></div>
+          <p class="code-label" data-i18n="code_label">Ton code de jumelage</p>
+          <div class="code-value" id="codeValue"></div>
+          <button id="copyBtn" class="copy-btn" data-i18n="btn_copy">Copier le code <span>⌘ C</span></button>
+        </div>
+
+        <div id="steps" style="display:none;" class="steps-box">
+          <div class="steps-heading"><span class="step-label">02 / FINISH</span><h3 data-i18n="steps_title">Entrer le code dans WhatsApp</h3></div>
+          <ol id="stepsList"></ol>
+          <div class="warning-box" data-i18n="warning">Le code expire dans <strong>60 secondes</strong>.</div>
+        </div>
       </div>
 
-      <div id="steps" style="display:none;" class="steps-box">
-        <h3 data-i18n="steps_title">📋 Comment entrer le code dans WhatsApp :</h3>
-        <ol id="stepsList"></ol>
-        <div class="warning-box" data-i18n="warning">⏱️ Le code expire dans <strong>60 secondes</strong> — entre-le rapidement !</div>
-      </div>
-    </div>
+      <aside class="side-column">
+        <div class="status-card panel">
+          <div class="status-card-top"><span class="step-label" data-i18n="status_label">STATUT DU SYSTÈME</span><span class="status-check">✓</span></div>
+          <div class="status-main"><span class="big-status-dot"></span><div><strong data-i18n="online">Opérationnel</strong><small data-i18n="ready">Prêt à recevoir une connexion</small></div></div>
+          <div class="stats-row"><div><strong id="sessionCount"><%= sessions %></strong><span data-i18n="sessions">sessions actives</span></div><div><strong><%= maxSessions %></strong><span data-i18n="capacity">capacité totale</span></div></div>
+          <div class="status-bar"><span id="statusBarFill" style="width:<%= Math.min(100, (sessions / Math.max(maxSessions, 1)) * 100) %>%"></span></div>
+        </div>
 
-    <!-- Liens sociaux -->
-    <div class="social-links">
-      <% if (channelLink) { %><a href="<%= channelLink %>" target="_blank" class="social-btn" data-i18n="social_channel">📢 Canal</a><% } %>
-      <% if (groupLink) { %><a href="<%= groupLink %>" target="_blank" class="social-btn" data-i18n="social_group">👥 Groupe</a><% } %>
-      <% if (telegram) { %><a href="<%= telegram %>" target="_blank" class="social-btn">✈️ Telegram</a><% } %>
-    </div>
+        <div class="guide-card panel">
+          <span class="step-label">QUICK GUIDE</span>
+          <h3 data-i18n="guide_title">Comment ça marche ?</h3>
+          <div class="guide-item"><span>01</span><p data-i18n="guide_one">Entre ton numéro avec l’indicatif pays.</p></div>
+          <div class="guide-item"><span>02</span><p data-i18n="guide_two">Récupère ton code unique.</p></div>
+          <div class="guide-item"><span>03</span><p data-i18n="guide_three">Valide-le dans Appareils liés.</p></div>
+        </div>
 
-    <p class="footer" data-i18n="footer">© 2025 <%= devName %> • Tous droits réservés</p>
-  </div>
+        <div class="social-card panel">
+          <span class="step-label">STAY CONNECTED</span>
+          <div class="social-links">
+            <% if (channelLink) { %><a href="<%= channelLink %>" target="_blank" rel="noreferrer" class="social-btn whatsapp-btn"><span>WA</span><b data-i18n="social_channel">Canal WhatsApp</b><i>↗</i></a><% } %>
+            <% if (groupLink) { %><a href="<%= groupLink %>" target="_blank" rel="noreferrer" class="social-btn group-btn"><span>GR</span><b data-i18n="social_group">Groupe</b><i>↗</i></a><% } %>
+            <% if (telegram) { %><a href="<%= telegram %>" target="_blank" rel="noreferrer" class="social-btn telegram-btn"><span>TG</span><b>Telegram</b><i>↗</i></a><% } %>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="footer">
+      <span>© 2026 <%= botName %></span><span class="footer-separator">/</span><span>crafted by <strong><%= devName %></strong></span>
+      <span class="footer-version">SYSTEM V10.0.0</span>
+    </footer>
+  </main>
 
   <script src="/app.js"></script>
 </body>

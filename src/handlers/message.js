@@ -1,4 +1,5 @@
 const config = require('../config');
+const path = require('path');
 const { getContentType } = require('baileys');
 const { getTime, getDate, getRam, getUptime } = require('../lib/utils');
 const { isOwner } = require('../lib/utils');
@@ -389,7 +390,11 @@ async function sendMainMenu(ctx) {
   // Send with clickable URL button
   try {
     await sock.sendMessage(from, {
-      image: { url: config.MENU_IMAGE },
+      image: {
+        url: config.MENU_IMAGE.startsWith('/')
+          ? path.join(__dirname, '../../website/public', config.MENU_IMAGE)
+          : config.MENU_IMAGE,
+      },
       caption,
       mentions: [sender],
     }, { quoted: msg });
