@@ -10,6 +10,9 @@ const TRANSLATIONS = {
     ready: 'Prêt à recevoir une connexion',
     sessions: 'sessions actives',
     capacity: 'capacité totale',
+    uptime: 'disponibilité',
+    social_channel_two: 'Canal WhatsApp 2',
+    social_website: 'Site officiel',
     guide_title: 'Comment ça marche ?',
     guide_one: 'Entre ton numéro avec l’indicatif pays.',
     guide_two: 'Récupère ton code unique.',
@@ -26,7 +29,7 @@ const TRANSLATIONS = {
     warning: '⏱️ Le code expire dans <strong>60 secondes</strong> — entre-le rapidement !',
     social_channel: '📢 Canal',
     social_group: '👥 Groupe',
-    footer: document.querySelector('.footer') ? document.querySelector('.footer').textContent : '© 2025 NatsuTech • Tous droits réservés',
+    footer: document.querySelector('.footer') ? document.querySelector('.footer').textContent : '© 2026 DENTSU MD V10 • Tous droits réservés',
     error_invalid: 'Entre un numéro valide avec le code pays. Ex: 242xxx',
     error_network: 'Erreur réseau. Vérifie ta connexion et réessaie.',
     success_code: 'Code généré ! Suis les étapes ci-dessous 👇',
@@ -52,6 +55,9 @@ const TRANSLATIONS = {
     ready: 'Ready to receive a connection',
     sessions: 'active sessions',
     capacity: 'total capacity',
+    uptime: 'uptime',
+    social_channel_two: 'WhatsApp channel 2',
+    social_website: 'Official website',
     guide_title: 'How does it work?',
     guide_one: 'Enter your number with the country code.',
     guide_two: 'Get your unique pairing code.',
@@ -461,13 +467,37 @@ async function refreshStatus() {
     const status = await response.json();
     const count = Number(status.count) || 0;
     const max = Number(status.max) || 1;
+    const live = status.available !== false;
     const countElement = document.getElementById('sessionCount');
     const fillElement = document.getElementById('statusBarFill');
+    const uptimeElement = document.getElementById('uptimeValue');
+    const availabilityLabel = document.getElementById('availabilityLabel');
+    const availabilityDetail = document.getElementById('availabilityDetail');
+    const livePill = document.getElementById('livePill');
     if (countElement) countElement.textContent = count;
     if (fillElement) fillElement.style.width = `${Math.min(100, (count / max) * 100)}%`;
+    if (uptimeElement && Number.isFinite(Number(status.uptime))) uptimeElement.textContent = formatUptime(status.uptime);
+    if (availabilityLabel) availabilityLabel.textContent = live ? t('online') : 'Indisponible';
+    if (availabilityDetail) availabilityDetail.textContent = live ? t('ready') : 'Réessaie dans quelques instants';
+    if (livePill) livePill.classList.toggle('offline-pill', !live);
   } catch (_) {
-    // The pairing flow remains available if the status endpoint is temporarily unavailable.
+    const availabilityLabel = document.getElementById('availabilityLabel');
+    const availabilityDetail = document.getElementById('availabilityDetail');
+    const livePill = document.getElementById('livePill');
+    if (availabilityLabel) availabilityLabel.textContent = 'Indisponible';
+    if (availabilityDetail) availabilityDetail.textContent = 'Réessaie dans quelques instants';
+    if (livePill) livePill.classList.add('offline-pill');
   }
+}
+
+function formatUptime(seconds) {
+  const total = Math.max(0, Number(seconds) || 0);
+  const days = Math.floor(total / 86400);
+  const hours = Math.floor((total % 86400) / 3600);
+  const minutes = Math.floor((total % 3600) / 60);
+  if (days) return `${days}j ${hours}h`;
+  if (hours) return `${hours}h ${minutes}m`;
+  return `${minutes}m`;
 }
 
 function showError(msg) {

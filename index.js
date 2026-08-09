@@ -4,7 +4,7 @@ const { startWebServer } = require('./src/web');
 
 console.log(`
 ╔═══════════════════════════════════════╗
-║       DENTSU MD V10 - natsu242        ║
+║          DENTSU MD V10                ║
 ║   Multi-Session WhatsApp Bot v10.0    ║
 ╚═══════════════════════════════════════╝
 `);

@@ -22,11 +22,13 @@ app.get('/', (req, res) => {
     devName: config.DEV_NAME,
     menuImage: config.MENU_IMAGE,
     channelLink: config.CHANNEL_LINK,
+    channelLink2: config.CHANNEL_LINK2,
     groupLink: config.GROUP_LINK,
     telegram: config.TELEGRAM,
     website: config.WEBSITE,
     sessions: store.sessionCount(),
     maxSessions: config.MAX_SESSIONS,
+    uptime: Math.floor(process.uptime()),
   });
 });
 
@@ -103,7 +105,15 @@ app.get('/status', (req, res) => {
     number: num.slice(0, 3) + '***' + num.slice(-3),
     connected: true,
   }));
-  res.json({ sessions, count: sessions.length, max: config.MAX_SESSIONS });
+  res.json({
+    available: true,
+    status: 'online',
+    bot: config.BOT_NAME,
+    sessions,
+    count: sessions.length,
+    max: config.MAX_SESSIONS,
+    uptime: Math.floor(process.uptime()),
+  });
 });
 
 // ── Healthcheck Render ─────────────────────────────────────────────

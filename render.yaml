@@ -23,6 +23,8 @@ services:
         value: "https://whatsapp.com/channel/0029VbC1s7fFnSz1YhZYc01h"
       - key: GROUP_LINK
         value: "https://chat.whatsapp.com/GtXASqDdchAFvEJ95cQQ0F"
+      - key: CHANNEL_LINK2
+        value: "https://whatsapp.com/channel/0029VayOeIbGufIvDPhi6m1X"
       - key: TELEGRAM
         value: "https://t.me/Natsu_or_Dentsu"
       - key: WEBSITE

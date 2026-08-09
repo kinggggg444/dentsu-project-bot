@@ -20,7 +20,7 @@ module.exports = {
   MENU_IMAGE: process.env.MENU_IMAGE || 'https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/bot-avatar.png',
   RCD_IMAGE: process.env.RCD_IMAGE || 'https://files.catbox.moe/s1ggtt.jpeg',
   CHANNEL_LINK: process.env.CHANNEL_LINK || 'https://whatsapp.com/channel/0029VbC1s7fFnSz1YhZYc01h',
-  CHANNEL_LINK2: 'https://whatsapp.com/channel/0029VayOeIbGufIvDPhi6m1X',
+  CHANNEL_LINK2: process.env.CHANNEL_LINK2 || 'https://whatsapp.com/channel/0029VayOeIbGufIvDPhi6m1X',
   GROUP_LINK: process.env.GROUP_LINK || 'https://chat.whatsapp.com/GtXASqDdchAFvEJ95cQQ0F',
   NEWSLETTER_JID: process.env.NEWSLETTER_JID || '120363423640959729@newsletter',
   WEBSITE: process.env.WEBSITE || 'https://dentsu-md-v10.onrender.com',

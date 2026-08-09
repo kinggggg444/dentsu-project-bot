@@ -93,13 +93,13 @@ async function startSession(number) {
         if (action === 'add') {
           await sock.sendMessage(id, {
             image: { url: config.MENU_IMAGE },
-            caption: `╔╦══════════════════╦╗\n║║   *WELCOME* 🎉   ║║\n╚╩══════════════════╩╝\n\n👋 Welcome @${num} to *${meta.subject}*!\n\nWe're glad to have you here. Please read the group rules.\n\n_POWERED BY DENTSU MD V7_`,
+            caption: `╔╦══════════════════╦╗\n║║   *WELCOME* 🎉   ║║\n╚╩══════════════════╩╝\n\n👋 Welcome @${num} to *${meta.subject}*!\n\nWe're glad to have you here. Please read the group rules.\n\n_POWERED BY ${config.BOT_NAME}_`,
             mentions: [jid],
           });
         } else if (action === 'remove') {
           await sock.sendMessage(id, {
             image: { url: config.MENU_IMAGE },
-            caption: `╔╦══════════════════╦╗\n║║   *GOODBYE* 👋   ║║\n╚╩══════════════════╩╝\n\n😒 Goodbye @${num} , You Leave *${meta.subject}*.\n\nWe'll miss you! Come back anytime.\n\n_POWERED BY DENTSU MD V7_`,
+            caption: `╔╦══════════════════╦╗\n║║   *GOODBYE* 👋   ║║\n╚╩══════════════════╩╝\n\n😒 Goodbye @${num} , You Leave *${meta.subject}*.\n\nWe'll miss you! Come back anytime.\n\n_POWERED BY ${config.BOT_NAME}_`,
             mentions: [jid],
           });
         }

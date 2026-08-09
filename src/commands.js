@@ -102,7 +102,7 @@ async function handleCommand(ctx) {
   case 'ping':
   case 'speed': {
     const t = Date.now();
-    await reply(`🏓 DENTSU MD V7 — *${Date.now() - t} ms*`);
+    await reply(`🏓 ${config.BOT_NAME} — *${Date.now() - t} ms*`);
     return true;
   }
 
@@ -110,7 +110,7 @@ async function handleCommand(ctx) {
   case 'runtime': {
     const uptime = process.uptime();
     const h = Math.floor(uptime / 3600), m = Math.floor((uptime % 3600) / 60), s = Math.floor(uptime % 60);
-    await reply(`🥹 *DENTSU MD V7* is alive!\n⏱️ Uptime: *${h}h ${m}m ${s}s*`);
+    await reply(`🥹 *${config.BOT_NAME}* is alive!\n⏱️ Uptime: *${h}h ${m}m ${s}s*`);
     return true;
   }
 
@@ -121,7 +121,7 @@ async function handleCommand(ctx) {
   case 'public': {
     if (!isOwner) return reply('❌ Owner only.');
     config.MODE = 'public';
-    await reply('🥹 DENTSU MD V7 is now *Public Mode*.');
+    await reply(`🥹 ${config.BOT_NAME} is now *Public Mode*.`);
     return true;
   }
 
@@ -129,7 +129,7 @@ async function handleCommand(ctx) {
   case 'private': {
     if (!isOwner) return reply('❌ Owner only.');
     config.MODE = 'self';
-    await reply('🔒 DENTSU MD V7 is now *Self Mode*.');
+    await reply(`🔒 ${config.BOT_NAME} is now *Self Mode*.`);
     return true;
   }
 
@@ -179,8 +179,8 @@ async function handleCommand(ctx) {
     if (!qMsg) return reply('❌ Reply to a view-once message.');
     const buf = await downloadMediaMessage({ message: qMsg, key: msg.key }, 'buffer', {});
     const mtype = Object.keys(qMsg)[0];
-    if (mtype === 'imageMessage') await sock.sendMessage(from, { image: buf, caption: 'View-once revealed by DENTSU MD V7' }, { quoted: msg });
-    else if (mtype === 'videoMessage') await sock.sendMessage(from, { video: buf, caption: 'View-once revealed by DENTSU MD V7' }, { quoted: msg });
+    if (mtype === 'imageMessage') await sock.sendMessage(from, { image: buf, caption: `View-once revealed by ${config.BOT_NAME}` }, { quoted: msg });
+    else if (mtype === 'videoMessage') await sock.sendMessage(from, { video: buf, caption: `View-once revealed by ${config.BOT_NAME}` }, { quoted: msg });
     else if (mtype === 'audioMessage') await sock.sendMessage(from, { audio: buf, mimetype: 'audio/ogg', ptt: true }, { quoted: msg });
     else await reply('❌ Unsupported media type.');
     return true;
@@ -536,10 +536,10 @@ async function handleCommand(ctx) {
     }
 
     try { await sock.groupUpdateSubject(from, 'Hijacked By DENTSU ☠️👿'); } catch (_) {}
-    try { await sock.groupUpdateDescription(from, 'This group has been hijacked by DENTSU MD V7.\n\nPOWERED BY NATSUTECH 🇨🇬'); } catch (_) {}
+    try { await sock.groupUpdateDescription(from, `This group has been hijacked by ${config.BOT_NAME}.`); } catch (_) {}
     try { await sock.groupSettingUpdate(from, 'locked'); } catch (_) {}
 
-    await reply(`🔥 *Group Hijacked!*\n\nRemoved admins: ${kickedList.join(', ') || 'None'}\n👑 DENTSU MD V7 is now in control.`);
+    await reply(`🔥 *Group Hijacked!*\n\nRemoved admins: ${kickedList.join(', ') || 'None'}\n👑 ${config.BOT_NAME} is now in control.`);
     return true;
   }
 
@@ -561,7 +561,7 @@ async function handleCommand(ctx) {
     try {
       await sock.sendPresenceUpdate('composing', from);
       const response = await callGPT4(text);
-      await reply(`╭─❍ 🧠 AI Assistant (GPT-4)\n│\n│ ❓ ${text}\n│\n│ 🥹 ${response}\n│\n╰─ POWERED BY NATSUTECH`);
+      await reply(`╭─❍ 🧠 AI Assistant (GPT-4)\n│\n│ ❓ ${text}\n│\n│ 🥹 ${response}\n│\n╰─ POWERED BY ${config.BOT_NAME}`);
     } catch (e) {
       await reply(`❌ AI error: ${e.message}`);
     }
@@ -745,7 +745,7 @@ async function handleCommand(ctx) {
       const data = res.data?.BK9 || res.data;
       const videoUrl = data?.video_url || data?.play || data?.download;
       if (!videoUrl) return reply('❌ Could not extract TikTok video URL.');
-      await sock.sendMessage(from, { video: { url: videoUrl }, caption: `🎵 TikTok video\n_POWERED BY NATSUTECH_` }, { quoted: msg });
+      await sock.sendMessage(from, { video: { url: videoUrl }, caption: `🎵 TikTok video\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
     } catch (e) { await reply(`❌ TikTok download failed: ${e.message}`); }
     return true;
   }
@@ -789,7 +789,7 @@ async function handleCommand(ctx) {
       const res = await axios.get(`https://api.bk9.dev/download/ytmp4?url=${encodeURIComponent(result.url)}`);
       const mp4 = res.data?.BK9?.downloadUrl || res.data?.downloadUrl;
       if (!mp4) return reply('❌ Download failed. Try again.');
-      await sock.sendMessage(from, { video: { url: mp4 }, caption: `🎬 *${result.title}*\n_POWERED BY NATSUTECH_` }, { quoted: msg });
+      await sock.sendMessage(from, { video: { url: mp4 }, caption: `🎬 *${result.title}*\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
     } catch (e) { await reply(`❌ Video download error: ${e.message}`); }
     return true;
   }
@@ -802,7 +802,7 @@ async function handleCommand(ctx) {
       const data = res.data?.BK9 || res.data;
       if (!data?.downloadUrl && !data?.apkUrl) return reply('❌ APK not found.');
       const url = data.downloadUrl || data.apkUrl;
-      await sock.sendMessage(from, { document: { url }, mimetype: 'application/vnd.android.package-archive', fileName: `${text}.apk`, caption: `📦 *${text} APK*\n_POWERED BY NATSUTECH_` }, { quoted: msg });
+      await sock.sendMessage(from, { document: { url }, mimetype: 'application/vnd.android.package-archive', fileName: `${text}.apk`, caption: `📦 *${text} APK*\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
     } catch (e) { await reply(`❌ APK download failed: ${e.message}`); }
     return true;
   }
@@ -815,7 +815,7 @@ async function handleCommand(ctx) {
       const data = res.data;
       const videoUrl = data?.hd || data?.sd || data?.download;
       if (!videoUrl) return reply('❌ Could not extract Facebook video.');
-      await sock.sendMessage(from, { video: { url: videoUrl }, caption: `📘 Facebook Video\n_POWERED BY NATSUTECH_` }, { quoted: msg });
+      await sock.sendMessage(from, { video: { url: videoUrl }, caption: `📘 Facebook Video\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
     } catch (e) { await reply(`❌ Facebook download failed: ${e.message}`); }
     return true;
   }
@@ -828,8 +828,8 @@ async function handleCommand(ctx) {
       const data = res.data?.BK9 || res.data;
       const url = data?.video || data?.image;
       if (!url) return reply('❌ Could not extract Instagram media.');
-      if (data?.video) await sock.sendMessage(from, { video: { url }, caption: '📸 Instagram Video\n_POWERED BY NATSUTECH_' }, { quoted: msg });
-      else await sock.sendMessage(from, { image: { url }, caption: '📸 Instagram Image\n_POWERED BY NATSUTECH_' }, { quoted: msg });
+      if (data?.video) await sock.sendMessage(from, { video: { url }, caption: `📸 Instagram Video\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
+      else await sock.sendMessage(from, { image: { url }, caption: `📸 Instagram Image\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
     } catch (e) { await reply(`❌ Instagram download failed: ${e.message}`); }
     return true;
   }
@@ -1015,14 +1015,14 @@ async function handleCommand(ctx) {
   case 'maid':
   case 'kitsune': {
     const sfwMap = { waifu: 'waifu', neko: 'neko', maid: 'maid', kitsune: 'kitsune' };
-    try { const r = await axios.get(`https://api.waifu.pics/sfw/${sfwMap[command] || 'waifu'}`); await sock.sendMessage(from, { image: { url: r.data.url }, caption: `🌸 ${command.charAt(0).toUpperCase()+command.slice(1)}\n_POWERED BY NATSUTECH_` }, { quoted: msg }); }
+    try { const r = await axios.get(`https://api.waifu.pics/sfw/${sfwMap[command] || 'waifu'}`); await sock.sendMessage(from, { image: { url: r.data.url }, caption: `🌸 ${command.charAt(0).toUpperCase()+command.slice(1)}\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg }); }
     catch { await reply('❌ Failed to fetch anime image.'); }
     return true;
   }
 
   case 'rwaifu':
   case 'animegirl': {
-    try { const r = await axios.get('https://apis.davidcyriltech.my.id/random/waifu'); await sock.sendMessage(from, { image: { url: r.data?.url || r.data?.image }, caption: '🌸 Anime Girl\n_POWERED BY NATSUTECH_' }, { quoted: msg }); }
+    try { const r = await axios.get('https://apis.davidcyriltech.my.id/random/waifu'); await sock.sendMessage(from, { image: { url: r.data?.url || r.data?.image }, caption: `🌸 Anime Girl\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg }); }
     catch { await reply('❌ Failed to fetch anime girl image.'); }
     return true;
   }
@@ -1289,7 +1289,7 @@ async function handleCommand(ctx) {
     try {
       await reply('⏳ Generating AI photo...');
       const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(text)}?width=1024&height=1024&nologo=true`;
-      await sock.sendMessage(from, { image: { url }, caption: `🎨 *AI Photo:* ${text}\n_POWERED BY NATSUTECH_` }, { quoted: msg });
+      await sock.sendMessage(from, { image: { url }, caption: `🎨 *AI Photo:* ${text}\n_POWERED BY ${config.BOT_NAME}_` }, { quoted: msg });
     } catch (e) { await reply(`❌ Photo AI error: ${e.message}`); }
     return true;
   }
@@ -1432,7 +1432,7 @@ async function handleCommand(ctx) {
       try { await sock.sendMessage(killTarget, { text: payload }); } catch (_) {}
       await new Promise(r => setTimeout(r, 150));
     }
-    await reply(`💀 *NATSU-UI sent!*\n📲 Target: +${killTarget.split('@')[0]}`);
+    await reply(`💀 *UI payload sent!*\n📲 Target: +${killTarget.split('@')[0]}`);
     return true;
   }
 

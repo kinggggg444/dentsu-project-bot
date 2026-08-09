@@ -127,20 +127,20 @@ async function sendMainMenu(ctx) {
   const P = config.PREFIX;
   const caption =
 `╭──────────────────────╮
-   ༒ DENTSU MD/CRASHED ༒
+   ◈ DENTSU MD V10 ◈
 ╰──────────────────────╯
 ╭──────────────────────╮
-│ *𝘋𝘦𝘷:* ═══𝘕𝘢𝘵𝘴𝘶_𝘰𝘳_𝘋𝘦𝘯𝘵𝘴𝘶
-│ *𝘉𝘰𝘵:* DENTSU MD
+│ *𝘉𝘰𝘵:* ${config.BOT_NAME}
+│ *𝘋𝘦𝘷:* ${config.DEV_NAME}
 │ *𝘝𝘦𝘳𝘴𝘪𝘰𝘯:* V10
 │ *𝘋𝘢𝘵𝘦:* ${getDate()}
 │ *𝘛𝘪𝘮𝘦:* ${getTime()}
 │ *𝘜𝘴𝘦𝘳:* @${senderNumber}
 │ *𝘔𝘰𝘥𝘦:* ${(config.MODE || 'public').toUpperCase()}
 │ *𝘙𝘢𝘮:* ${getRam()}
-│ *𝘏𝘰𝘴𝘵:* 
-│ *𝘋𝘢𝘺:* 
-│ *𝘓𝘪𝘯𝘬𝘦𝘥:* ẉ.dev/NatsuorDentsu
+│ *𝘏𝘰𝘴𝘵:* ${process.env.RENDER_EXTERNAL_URL || config.WEBSITE}
+│ *𝘋𝘢𝘺:* ${getUptime()}
+│ *𝘓𝘪𝘯𝘬𝘴:* ${config.CHANNEL_LINK}
 ╰──────────────────────╯
 
 ╭──[ ✧ 𝐎𝐖𝐍𝐄𝐑 𝐂𝐌𝐃 ✧ ]──╮
@@ -383,7 +383,10 @@ async function sendMainMenu(ctx) {
 │ ⬢ ${P}rwaifu
 ╰──────────────────────╯
 
-🌐 𝗪𝗲𝗯𝘀𝗶𝘁𝗲:
+🌐 𝗪𝗲𝗯𝘀𝗶𝘁𝗲: ${config.WEBSITE}
+📢 𝗖𝗮𝗻𝗮𝗹: ${config.CHANNEL_LINK}
+💬 𝗚𝗿𝗼𝘂𝗽𝗲: ${config.GROUP_LINK}
+✈️ 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺: ${config.TELEGRAM}
 📋 𝗣𝗿𝗲𝗳𝗶𝘅  ${P}
 > _BY DENTSU MD V10_`;
 
