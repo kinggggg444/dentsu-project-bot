@@ -1,0 +1,20 @@
+[build]
+  publish = "website"
+
+[[redirects]]
+  from = "/pair"
+  to = "https://dentsu-md-v10.onrender.com/pair"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/status"
+  to = "https://dentsu-md-v10.onrender.com/status"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/health"
+  to = "https://dentsu-md-v10.onrender.com/health"
+  status = 200
+  force = true
