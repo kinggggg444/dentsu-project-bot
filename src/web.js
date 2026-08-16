@@ -66,7 +66,7 @@ app.post('/pair', async (req, res) => {
       return res.json({
         success: true,
         code,
-        message: `Entre ce code dans WhatsApp :\nParamètres → Appareils liés → Lier un appareil → Code de jumelage`,
+        message: `Aucun message WhatsApp automatique n'est envoyé avant la connexion.\nEntre ce code manuellement dans WhatsApp :\nParamètres → Appareils liés → Lier un appareil → Lier avec un numéro de téléphone`,
       });
     }
 

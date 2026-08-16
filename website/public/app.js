@@ -430,7 +430,7 @@ window.addEventListener('DOMContentLoaded', () => {
         codeDisplay.style.display = 'block';
         stepsDiv.style.display = 'block';
         renderSteps();
-        showSuccess(t('success_code'));
+        showSuccess([t('success_code'), data.message].filter(Boolean).join('\n\n'));
       } else if (data.success && !data.code) {
         showSuccess(t('success_already'));
       } else {
