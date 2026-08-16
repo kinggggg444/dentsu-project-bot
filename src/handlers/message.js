@@ -21,9 +21,10 @@ async function messageHandler(sock, { messages, type }) {
   const botNumber = sock.user.id.split(':')[0];
   const botFullJid = botNumber + '@s.whatsapp.net';
 
-  const sender = isGroup
-    ? (msg.key.fromMe ? botFullJid : (msg.key.participant || from))
-    : (msg.key.fromMe ? botFullJid : from);
+  // Comme dans le V7, utiliser le participant réel quand WhatsApp le fournit.
+  // Le fallback fromMe permet aussi au propriétaire d'utiliser le bot depuis
+  // le téléphone qui a lié la session.
+  const sender = msg.key.participant || (msg.key.fromMe ? botFullJid : from);
   const senderNumber = sender?.split('@')[0];
 
   const rawMsg = msg.message?.ephemeralMessage?.message

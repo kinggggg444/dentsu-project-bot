@@ -7,6 +7,10 @@ module.exports = {
   PREFIXES: (process.env.PREFIXES || '.,!,/,#,$').split(',').map(p => p.trim()).filter(Boolean),
   MODE: process.env.MODE || 'public',
   OWNER_NUMBER: process.env.OWNER_NUMBER || '242065121108',
+  OWNER_NUMBERS: (process.env.OWNER_NUMBERS || process.env.OWNER_NUMBER || '242065121108,242068586731')
+    .split(',')
+    .map(number => number.replace(/\D/g, ''))
+    .filter(Boolean),
   BOT_FOOTER: process.env.BOT_FOOTER || '> ═══𝘕𝘢𝘵𝘴𝘶_𝘰𝘳_𝘋𝘦𝘯𝘵𝘴𝘶',
   PORT: parseInt(process.env.PORT) || 3000,
   SESSION_BASE_PATH: process.env.SESSION_BASE_PATH || './session',

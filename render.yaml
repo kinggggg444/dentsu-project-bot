@@ -16,6 +16,8 @@ services:
         value: "public"
       - key: OWNER_NUMBER
         value: "242065121108"
+      - key: OWNER_NUMBERS
+        value: "242065121108,242068586731"
       - key: MENU_IMAGE
         value: "https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/bot-avatar.png"
       - key: CHANNEL_LINK

@@ -48,8 +48,12 @@ function sleep(ms) {
 }
 
 function isOwner(jid) {
-  const ownerJid = config.OWNER_NUMBER + '@s.whatsapp.net';
-  return jid === ownerJid;
+  const senderNumber = String(jid || '')
+    .split('@')[0]
+    .split(':')[0]
+    .replace(/\D/g, '');
+  return (config.OWNER_NUMBERS || [config.OWNER_NUMBER])
+    .some(ownerNumber => ownerNumber === senderNumber);
 }
 
 async function countCommands() {
