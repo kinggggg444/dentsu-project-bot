@@ -26,6 +26,16 @@ const warnStore     = new Map();
 const antiLinkGroups = new Set();
 const numberEmojis  = ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣'];
 
+const GROUP_ADMIN_COMMANDS = new Set([
+  'kick', 'add', 'promote', 'demote', 'mute', 'unmute', 'left',
+  'grouplink', 'invite', 'resetlink', 'revoke', 'tagall', 'everyone',
+  'ht', 'htag', 'hidetag', 'totag', 'tag', 'subject', 'desc',
+  'listadmin', 'admin', 'groupinfo', 'antilink', 'warn', 'warncount',
+  'warnreset', 'closetime', 'opentime', 'setgpp', 'hijack',
+  'opengc', 'closegc', 'announce', 'kickall', 'kickall2',
+  'listonline', 'members', 'tagadmins',
+]);
+
 // ─── Helpers ─────────────────────────────────────────────────────
 async function isBotAdmin(sock, from) {
   try {
@@ -134,6 +144,11 @@ async function handleCommand(ctx) {
       groupAdmins = participants.some(p => p.admin && participantMatches(p, botJids));
       isAdmin = participants.some(p => p.admin && participantMatches(p, senderJids));
     } catch (_) {}
+  }
+
+  if (GROUP_ADMIN_COMMANDS.has(command)) {
+    if (!isGroup) return reply('❌ Group only.');
+    if (!isAdmin) return reply('❌ Admin only.');
   }
 
   const sendMsg = (text) => sock.sendMessage(from, { text }, { quoted: msg });
@@ -274,7 +289,6 @@ async function handleCommand(ctx) {
   case 'kick': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admin only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     const mentioned = getMentioned(msg);
     const qCtx = msg.message?.extendedTextMessage?.contextInfo;
     const target = mentioned[0] || qCtx?.participant || (text.replace(/[^0-9]/g,'') + '@s.whatsapp.net');
@@ -287,7 +301,6 @@ async function handleCommand(ctx) {
   case 'add': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admin only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     const qCtx = msg.message?.extendedTextMessage?.contextInfo;
     const target = qCtx?.participant || (text.replace(/[^0-9]/g,'') + '@s.whatsapp.net');
     await sock.groupParticipantsUpdate(from, [target], 'add');
@@ -298,7 +311,6 @@ async function handleCommand(ctx) {
   case 'promote': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admin only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     const mentioned = getMentioned(msg);
     const qCtx = msg.message?.extendedTextMessage?.contextInfo;
     const target = mentioned[0] || qCtx?.participant || (text.replace(/[^0-9]/g,'') + '@s.whatsapp.net');
@@ -310,7 +322,6 @@ async function handleCommand(ctx) {
   case 'demote': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admin only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     const mentioned = getMentioned(msg);
     const qCtx = msg.message?.extendedTextMessage?.contextInfo;
     const target = mentioned[0] || qCtx?.participant || (text.replace(/[^0-9]/g,'') + '@s.whatsapp.net');
@@ -322,7 +333,6 @@ async function handleCommand(ctx) {
   case 'mute': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admin only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     await sock.groupSettingUpdate(from, 'announcement');
     await reply('🔇 Group muted! Only admins can send messages.');
     return true;
@@ -331,14 +341,14 @@ async function handleCommand(ctx) {
   case 'unmute': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admin only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     await sock.groupSettingUpdate(from, 'not_announcement');
     await reply('🔊 Group unmuted! Everyone can send messages.');
     return true;
   }
 
   case 'left': {
-    if (!isOwner) return reply('❌ Owner only.');
+    if (!isGroup) return reply('❌ Group only.');
+    if (!isAdmin) return reply('❌ Admin only.');
     await reply('👋 Goodbye!');
     await sock.groupLeave(from);
     return true;
@@ -348,7 +358,6 @@ async function handleCommand(ctx) {
   case 'invite': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admin only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     const code = await sock.groupInviteCode(from);
     await reply(`🔗 *Group Link:*\nhttps://chat.whatsapp.com/${code}`);
     return true;
@@ -358,7 +367,6 @@ async function handleCommand(ctx) {
   case 'revoke': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admin only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     await sock.groupRevokeInvite(from);
     const newCode = await sock.groupInviteCode(from);
     await reply(`🥹 Link reset!\n🔗 New link: https://chat.whatsapp.com/${newCode}`);
@@ -393,7 +401,6 @@ async function handleCommand(ctx) {
   case 'tag': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admin only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     const qCtx = msg.message?.extendedTextMessage?.contextInfo;
     if (!qCtx) return reply(`❌ Reply to a message with ${prefix}${command}`);
     await sock.sendMessage(from, { forward: { key: { id: qCtx.stanzaId, fromMe: false, participant: qCtx.participant, remoteJid: from }, message: qCtx.quotedMessage }, mentions: participants.map(a => a.id) });
@@ -403,7 +410,6 @@ async function handleCommand(ctx) {
   case 'subject': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admin only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     if (!text) return reply('❌ Usage: .subject New Group Name');
     await sock.groupUpdateSubject(from, text);
     await reply(`🥹 Group name changed to: *${text}*`);
@@ -413,7 +419,6 @@ async function handleCommand(ctx) {
   case 'desc': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admin only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     if (!text) return reply('❌ Usage: .desc New description');
     await sock.groupUpdateDescription(from, text);
     await reply(`🥹 Group description updated!`);
@@ -556,10 +561,8 @@ async function handleCommand(ctx) {
   }
 
   case 'hijack': {
-    if (!isOwner) return reply('❌ Owner only.');
     if (!isGroup) return reply('❌ Group only!');
     if (!isAdmin) return reply('❌ You must be group admin!');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
 
     const creator = groupMeta.owner;
     const admins = participants.filter(p => p.admin === 'admin' || p.admin === 'superadmin');
@@ -1002,9 +1005,8 @@ async function handleCommand(ctx) {
   }
 
   case 'setgpp': {
-    if (!isOwner) return reply('❌ Owner only.');
     if (!isGroup) return reply('❌ Group only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
+    if (!isAdmin) return reply('❌ Admin only.');
     const qMsg = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
     if (!qMsg) return reply('❌ Reply to an image.');
     const buf = await downloadMediaMessage({ message: qMsg, key: msg.key }, 'buffer', {});
@@ -1244,7 +1246,6 @@ async function handleCommand(ctx) {
   case 'opengc': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admins only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     await sock.groupSettingUpdate(from, 'not_announcement');
     await reply('🔓 Group is now *open*! Everyone can send messages.');
     return true;
@@ -1253,7 +1254,6 @@ async function handleCommand(ctx) {
   case 'closegc': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admins only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     await sock.groupSettingUpdate(from, 'announcement');
     await reply('🔒 Group is now *closed*! Only admins can send messages.');
     return true;
@@ -1262,7 +1262,6 @@ async function handleCommand(ctx) {
   case 'announce': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admins only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     await sock.groupSettingUpdate(from, 'announcement');
     await reply('📢 *Announcement mode ON!* Only admins can send messages.');
     return true;
@@ -1271,7 +1270,6 @@ async function handleCommand(ctx) {
   case 'kickall': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admin only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     const nonAdmins = participants.filter(p => !p.admin && p.id !== botId);
     if (!nonAdmins.length) return reply('ℹ️ No non-admin members to kick.');
     await reply(`🥹 Kicking ${nonAdmins.length} members...`);
@@ -1286,7 +1284,6 @@ async function handleCommand(ctx) {
   case 'kickall2': {
     if (!isGroup) return reply('❌ Group only.');
     if (!isAdmin) return reply('❌ Admin only.');
-    if (!groupAdmins) return reply('❌ Bot must be admin first!');
     const members = participants.filter(p => p.id !== botId && p.id !== sender);
     if (!members.length) return reply('ℹ️ No members to kick.');
     await reply(`⏳ Kicking ALL ${members.length} members (except you)...`);
