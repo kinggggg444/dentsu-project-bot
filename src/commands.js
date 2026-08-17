@@ -55,6 +55,23 @@ function jidNumber(jid) {
     .replace(/\D/g, '');
 }
 
+function sameJid(a, b) {
+  if (!a || !b) return false;
+  const left = String(a).split(':')[0].toLowerCase();
+  const right = String(b).split(':')[0].toLowerCase();
+  if (left === right) return true;
+  const leftNumber = jidNumber(a);
+  const rightNumber = jidNumber(b);
+  return Boolean(leftNumber && rightNumber && leftNumber === rightNumber);
+}
+
+function participantMatches(participant, jids) {
+  const participantJids = [participant?.id, participant?.lid, participant?.phoneNumber];
+  return participantJids.some(candidate =>
+    candidate && jids.some(jid => sameJid(candidate, jid))
+  );
+}
+
 function getRandom(ext = '') {
   return `./tmp/${Date.now()}${Math.random().toString(36).slice(2)}${ext}`;
 }
@@ -109,8 +126,13 @@ async function handleCommand(ctx) {
       participants = groupMeta.participants;
       const botNumber = jidNumber(botId);
       const senderNumber = jidNumber(sender);
-      groupAdmins = participants.some(p => p.admin && jidNumber(p.id) === botNumber);
-      isAdmin = participants.some(p => p.admin && jidNumber(p.id) === senderNumber);
+      const botJids = [botId, sock.user?.id, sock.user?.lid].filter(Boolean);
+      const senderJids = [sender];
+      if (senderNumber === botNumber || msg.key.fromMe) {
+        senderJids.push(...botJids);
+      }
+      groupAdmins = participants.some(p => p.admin && participantMatches(p, botJids));
+      isAdmin = participants.some(p => p.admin && participantMatches(p, senderJids));
     } catch (_) {}
   }
 
