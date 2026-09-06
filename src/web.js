@@ -124,7 +124,13 @@ app.get('/status', (req, res) => {
 
 // ── Healthcheck Render ─────────────────────────────────────────────
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', bot: config.BOT_NAME, sessions: store.sessionCount(), uptime: Math.floor(process.uptime()) });
+  res.json({
+    status: 'ok',
+    bot: config.BOT_NAME,
+    version: config.VERSION,
+    sessions: store.sessionCount(),
+    uptime: Math.floor(process.uptime()),
+  });
 });
 
 function startWebServer() {

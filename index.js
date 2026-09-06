@@ -1,5 +1,4 @@
 require('dotenv').config();
-const { startBot } = require('./src/bot');
 const { startWebServer } = require('./src/web');
 const { startTelegram } = require('./src/telegram');
 
@@ -16,4 +15,9 @@ startTelegram();
 
 // Restaurer les sessions existantes après un redémarrage du service.
 // Le serveur web reste disponible même si une session doit se reconnecter.
-startBot();
+try {
+  const { startBot } = require('./src/bot');
+  startBot();
+} catch (error) {
+  console.error('[BOT] WhatsApp client failed to load; Telegram and web services remain available:', error.message);
+}

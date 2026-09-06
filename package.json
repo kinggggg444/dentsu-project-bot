@@ -1,6 +1,6 @@
 {
   "name": "dentsu-project-bot",
-  "version": "10.0.0",
+  "version": "1.0.0",
   "description": "Dentsu-project WhatsApp and Telegram bot by NatsuTech's 🇨🇬",
   "main": "index.js",
   "scripts": {

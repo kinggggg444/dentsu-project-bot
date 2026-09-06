@@ -1,10 +1,15 @@
 const TelegramBot = require('node-telegram-bot-api');
 const config = require('./config');
 const store = require('./lib/store');
-const { startSession } = require('./bot');
 
 const startTime = Date.now();
 const pendingPairs = new Set();
+let startSession;
+
+function getStartSession() {
+  if (!startSession) ({ startSession } = require('./bot'));
+  return startSession;
+}
 
 function uptime(seconds) {
   const total = Math.floor(seconds);
@@ -140,7 +145,7 @@ function startTelegram() {
     pendingPairs.add(number);
     try {
       await bot.sendMessage(msg.chat.id, '⚡ Generating your WhatsApp pairing code…');
-      const { code } = await startSession(number);
+      const { code } = await getStartSession()(number);
       if (!code) {
         await bot.sendMessage(msg.chat.id, '✅ This number is already connected.');
         return;

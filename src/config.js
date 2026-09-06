@@ -1,4 +1,5 @@
 require('dotenv').config();
+const packageInfo = require('../package.json');
 
 const BOT_IMAGE_BASE =
   'https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets';
@@ -17,6 +18,7 @@ function getMenuImage() {
 
 module.exports = {
   BOT_NAME: process.env.BOT_NAME || 'Dentsu-project',
+  VERSION: process.env.APP_VERSION || packageInfo.version || '1.0.0',
   DEV_NAME: process.env.DEV_NAME || "NatsuTech's 🇨🇬",
   PREFIX: process.env.PREFIX || '.',
   PREFIXES: (process.env.PREFIXES || '.,!,/,#,$').split(',').map(p => p.trim()).filter(Boolean),

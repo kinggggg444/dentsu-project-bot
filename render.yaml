@@ -8,6 +8,8 @@ services:
     envVars:
       - key: BOT_NAME
         value: "Dentsu-project"
+      - key: APP_VERSION
+        value: "1.0.0"
       - key: DEV_NAME
         value: "NatsuTech's 🇨🇬"
       - key: PREFIX
