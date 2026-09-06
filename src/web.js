@@ -128,6 +128,7 @@ app.get('/health', (req, res) => {
     status: 'ok',
     bot: config.BOT_NAME,
     version: config.VERSION,
+    telegramConfigured: Boolean(config.TELEGRAM_TOKEN),
     sessions: store.sessionCount(),
     uptime: Math.floor(process.uptime()),
   });

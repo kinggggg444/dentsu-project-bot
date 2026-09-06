@@ -3,6 +3,11 @@ const packageInfo = require('../package.json');
 
 const BOT_IMAGE_BASE =
   'https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets';
+const configuredBotName = String(process.env.BOT_NAME || '').trim();
+const BOT_NAME =
+  configuredBotName && !/(?:DENTSU\s*MD|DENTSU-MD|V10)/i.test(configuredBotName)
+    ? configuredBotName
+    : 'Dentsu-project';
 const MENU_IMAGES = (process.env.MENU_IMAGES || [
   `${BOT_IMAGE_BASE}/dentsu-project-carbon-01.png`,
   `${BOT_IMAGE_BASE}/dentsu-project-carbon-02.png`,
@@ -17,7 +22,7 @@ function getMenuImage() {
 }
 
 module.exports = {
-  BOT_NAME: process.env.BOT_NAME || 'Dentsu-project',
+  BOT_NAME,
   VERSION: process.env.APP_VERSION || packageInfo.version || '1.0.0',
   DEV_NAME: process.env.DEV_NAME || "NatsuTech's 🇨🇬",
   PREFIX: process.env.PREFIX || '.',

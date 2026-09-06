@@ -77,7 +77,7 @@ function startTelegram() {
   }
 
   const bot = new TelegramBot(config.TELEGRAM_TOKEN, {
-    polling: { autoStart: true, params: { timeout: 30 } },
+    polling: false,
   });
 
   bot.onText(/^\/(?:start|menu|help)$/, (msg) => sendMenu(bot, msg.chat.id));
@@ -172,7 +172,13 @@ function startTelegram() {
   bot.on('polling_error', (error) => {
     console.error('[TELEGRAM] Polling error:', error.message);
   });
-  console.log('[TELEGRAM] Pairing bridge started.');
+  bot.deleteWebHook({ drop_pending_updates: false })
+    .catch((error) => {
+      console.warn('[TELEGRAM] Could not clear an existing webhook:', error.message);
+    })
+    .then(() => bot.startPolling({ params: { timeout: 30 } }))
+    .then(() => console.log('[TELEGRAM] Pairing bridge started.'))
+    .catch((error) => console.error('[TELEGRAM] Polling could not start:', error.message));
   return bot;
 }
 
