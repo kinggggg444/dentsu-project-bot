@@ -38,7 +38,9 @@ module.exports = {
   MAX_RETRIES: 3,
   MENU_IMAGES,
   getMenuImage,
-  MENU_IMAGE: MENU_IMAGES[0],
+  get MENU_IMAGE() {
+    return getMenuImage();
+  },
   RCD_IMAGE: process.env.RCD_IMAGE || MENU_IMAGES[0],
   CHANNEL_LINK: process.env.CHANNEL_LINK || 'https://whatsapp.com/channel/0029VbC1s7fFnSz1YhZYc01h',
   CHANNEL_LINK2: process.env.CHANNEL_LINK2 || 'https://whatsapp.com/channel/0029VayOeIbGufIvDPhi6m1X',

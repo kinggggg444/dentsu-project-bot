@@ -40,7 +40,7 @@ function telegramMenu() {
 }
 
 function imageForTelegram() {
-  return config.getMenuImage ? config.getMenuImage() : config.MENU_IMAGE;
+  return config.getMenuImage();
 }
 
 async function sendMenu(bot, chatId) {

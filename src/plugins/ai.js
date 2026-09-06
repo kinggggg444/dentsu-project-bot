@@ -43,7 +43,7 @@ async function handle(ctx) {
 
   if (AI_MENUS[command]) {
     await sock.sendMessage(from, {
-      image: { url: config.MENU_IMAGE },
+      image: { url: config.getMenuImage() },
       caption: AI_MENUS[command]
     }, { quoted: msg });
     return true;

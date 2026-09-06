@@ -84,7 +84,7 @@ async function handle(ctx) {
 
   if (command === 'groupmenu') {
     await sock.sendMessage(from, {
-      image: { url: config.MENU_IMAGE },
+      image: { url: config.getMenuImage() },
       caption: GROUP_MENU
     }, { quoted: msg });
     return true;

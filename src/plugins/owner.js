@@ -49,7 +49,7 @@ async function handle(ctx) {
 
   if (command === 'ownermenu') {
     await sock.sendMessage(from, {
-      image: { url: config.MENU_IMAGE },
+      image: { url: config.getMenuImage() },
       caption: OWNER_MENU
     }, { quoted: msg });
     return true;
@@ -80,7 +80,7 @@ async function handle(ctx) {
       const m2 = Math.floor((uptime % 3600) / 60);
       const s = Math.floor(uptime % 60);
       await sock.sendMessage(from, {
-        image: { url: config.MENU_IMAGE },
+        image: { url: config.getMenuImage() },
          caption: `✅ *${config.BOT_NAME} est en ligne!*\n\n⏱️ Runtime: ${h}h ${m2}m ${s}s\n👤 Sessions actives: ${store.sessionCount()}\n📱 Mode: ${config.MODE}\n🌍 Host: ${process.env.RENDER_EXTERNAL_URL || 'Local'}\n\n${config.BOT_FOOTER}`
       }, { quoted: msg });
       return true;
@@ -248,7 +248,7 @@ async function handle(ctx) {
       const mentioned = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid || [];
       const target = mentioned[0] || sender;
       try {
-        const pp = await sock.profilePictureUrl(target, 'image').catch(() => config.MENU_IMAGE);
+        const pp = await sock.profilePictureUrl(target, 'image').catch(() => config.getMenuImage());
         const status = await sock.fetchStatus(target).catch(() => ({ status: 'Aucun' }));
         await sock.sendMessage(from, {
           image: { url: pp },

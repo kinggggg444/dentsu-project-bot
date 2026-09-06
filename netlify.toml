@@ -3,18 +3,18 @@
 
 [[redirects]]
   from = "/pair"
-  to = "https://dentsu-md-v10.onrender.com/pair"
+  to = "https://dentsu-project.onrender.com/pair"
   status = 200
   force = true
 
 [[redirects]]
   from = "/status"
-  to = "https://dentsu-md-v10.onrender.com/status"
+  to = "https://dentsu-project.onrender.com/status"
   status = 200
   force = true
 
 [[redirects]]
   from = "/health"
-  to = "https://dentsu-md-v10.onrender.com/health"
+  to = "https://dentsu-project.onrender.com/health"
   status = 200
   force = true

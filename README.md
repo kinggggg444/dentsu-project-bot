@@ -1,11 +1,11 @@
-# DENTSU MD V10
+# Dentsu-project
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/bot-avatar.png" alt="DENTSU MD V10" width="300" style="border-radius:20px"/>
+  <img src="https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/dentsu-project-carbon-01.png" alt="Dentsu-project" width="300" style="border-radius:20px"/>
 </p>
 
 <p align="center">
-  <b>Bot WhatsApp multi-sessions • 200+ commandes • by Natsu Tech</b>
+  <b>WhatsApp + Telegram multi-session bot • 200+ commands • by NatsuTech's 🇨🇬</b>
 </p>
 
 <p align="center">
@@ -68,7 +68,7 @@ Les plus importantes sont :
 | `MAX_SESSIONS` | Nombre maximal de sessions | `50` |
 | `SESSION_BASE_PATH` | Dossier de sauvegarde des sessions | `./session` |
 | `WEBSITE` | URL publique du service | `https://mon-bot.example` |
-| `WEBSITE_DISPLAY` | Adresse courte affichée dans le menu WhatsApp | `dentsu-md-v10.onrender.com` |
+| `WEBSITE_DISPLAY` | Short address shown in the WhatsApp menu | `dentsu-project.onrender.com` |
 | `AUTO_FOLLOW_CHANNEL` | Suit automatiquement le canal configuré | `true` |
 | `AUTO_JOIN_GROUP` | Rejoint automatiquement le groupe configuré | `true` |
 | `AUTO_JOIN_DELAY_MS` | Délai avant la tentative de rejoindre le groupe | `5000` |
@@ -164,7 +164,7 @@ curl https://TON-DOMAINE/health
 La réponse attendue ressemble à :
 
 ```json
-{"status":"ok","bot":"DENTSU MD V10","sessions":0,"uptime":12}
+{"status":"ok","bot":"Dentsu-project","sessions":0,"uptime":12}
 ```
 
 Si le healthcheck répond correctement, ouvre `https://TON-DOMAINE/` et suis les
@@ -194,4 +194,4 @@ instructions de jumelage affichées.
 
 ---
 
-<p align="center">Made with ❤️ by <b>Natsu Tech</b></p>
+<p align="center">Made with ❤️ by <b>NatsuTech's 🇨🇬</b></p>

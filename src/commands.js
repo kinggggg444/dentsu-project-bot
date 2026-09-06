@@ -807,7 +807,7 @@ async function handleCommand(ctx) {
         audio: { url: result.url },
         mimetype: 'audio/mpeg',
         fileName: `${result.title}.mp3`,
-        contextInfo: result.thumbnail ? { externalAdReply: { thumbnailUrl: result.thumbnail, title: result.title, body: 'DENTSU MD V10', renderLargerThumbnail: true, mediaType: 1 } } : undefined,
+        contextInfo: result.thumbnail ? { externalAdReply: { thumbnailUrl: result.thumbnail, title: result.title, body: config.BOT_NAME, renderLargerThumbnail: true, mediaType: 1 } } : undefined,
       }, { quoted: msg });
       await sock.sendMessage(from, { react: { text: '🥹', key: msg.key } });
     } catch (e) { await reply(`❌ Audio download error: ${e.message}`); }
@@ -1321,7 +1321,7 @@ async function handleCommand(ctx) {
   case 'pair':
   case 'connect': {
     if (!isOwner) return reply('❌ Owner only.');
-    const WEBSITE = process.env.WEBSITE || 'dentsu-md-v10.onrender.com';
+    const WEBSITE = process.env.WEBSITE || config.WEBSITE || 'dentsu-project.onrender.com';
     const websiteUrl = WEBSITE.startsWith('http') ? WEBSITE : 'https://' + WEBSITE;
     await reply(`🔗 *Bot Pairing Link:*\n${websiteUrl}\n\n_Open this link, enter your WhatsApp number with country code, and follow the steps to connect the bot._`);
     return true;

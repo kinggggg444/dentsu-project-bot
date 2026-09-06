@@ -25,7 +25,7 @@ async function handle(ctx) {
 
   if (command === 'searchmenu') {
     await sock.sendMessage(from, {
-      image: { url: config.MENU_IMAGE },
+      image: { url: config.getMenuImage() },
       caption: SEARCH_MENU
     }, { quoted: msg });
     return true;

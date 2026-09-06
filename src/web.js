@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const { startSession } = require('./bot');
 const store = require('./lib/store');
 const config = require('./config');
 
@@ -14,13 +13,20 @@ app.use(express.urlencoded({ extended: true }));
 
 // Garder les requêtes de pairing en cours (éviter les doublons)
 const pendingPairs = new Set();
+let startSession;
+
+function getStartSession() {
+  if (!startSession) ({ startSession } = require('./bot'));
+  return startSession;
+}
 
 // ── Page principale ────────────────────────────────────────────────
 app.get('/', (req, res) => {
   res.render('index', {
     botName: config.BOT_NAME,
     devName: config.DEV_NAME,
-    menuImage: config.MENU_IMAGE,
+    menuImage: config.getMenuImage(),
+    menuImages: config.MENU_IMAGES,
     channelLink: config.CHANNEL_LINK,
     channelLink2: config.CHANNEL_LINK2,
     groupLink: config.GROUP_LINK,
@@ -35,43 +41,43 @@ app.get('/', (req, res) => {
 // ── Demander un code de jumelage ───────────────────────────────────
 app.post('/pair', async (req, res) => {
   let { number } = req.body;
-  if (!number) return res.json({ success: false, error: 'Numéro requis' });
+  if (!number) return res.json({ success: false, error: 'A WhatsApp number is required.' });
 
   const sanitized = number.replace(/[^0-9]/g, '');
 
   if (sanitized.length < 7 || sanitized.length > 15) {
-    return res.json({ success: false, error: 'Numéro invalide. Exemple: 242xxx' });
+    return res.json({ success: false, error: 'Invalid number. Example: 242xxx' });
   }
 
   if (store.sessionCount() >= config.MAX_SESSIONS) {
-    return res.json({ success: false, error: `Limite de ${config.MAX_SESSIONS} sessions atteinte` });
+    return res.json({ success: false, error: `The ${config.MAX_SESSIONS}-session limit has been reached.` });
   }
 
   const existing = store.getSession(sanitized);
   if (existing) {
-    return res.json({ success: false, error: 'Ce numéro est déjà connecté au bot!' });
+    return res.json({ success: false, error: 'This number is already connected to the bot.' });
   }
 
   if (pendingPairs.has(sanitized)) {
-    return res.json({ success: false, error: 'Une demande est déjà en cours pour ce numéro. Attends 30 secondes.' });
+    return res.json({ success: false, error: 'A request is already running for this number. Wait 30 seconds.' });
   }
 
   pendingPairs.add(sanitized);
 
   try {
-    const { code } = await startSession(sanitized);
+    const { code } = await getStartSession()(sanitized);
 
     if (code) {
       setTimeout(() => pendingPairs.delete(sanitized), 60000);
       return res.json({
         success: true,
         code,
-        message: `Aucun message WhatsApp automatique n'est envoyé avant la connexion.\nEntre ce code manuellement dans WhatsApp :\nParamètres → Appareils liés → Lier un appareil → Lier avec un numéro de téléphone`,
+        message: `No automatic WhatsApp message is sent before connection.\nEnter this code manually in WhatsApp:\nSettings → Linked Devices → Link a device → Link with phone number`,
       });
     }
 
     pendingPairs.delete(sanitized);
-    return res.json({ success: true, code: null, message: 'Numéro déjà connecté!' });
+    return res.json({ success: true, code: null, message: 'This number is already connected.' });
 
   } catch (err) {
     pendingPairs.delete(sanitized);
@@ -82,17 +88,17 @@ app.post('/pair', async (req, res) => {
     let errorMsg = raw;
 
     if (raw.includes('timed out') || raw.includes('timeout')) {
-      errorMsg = 'Délai dépassé. Vérifie ta connexion internet et réessaie.';
+      errorMsg = 'Request timed out. Check your internet connection and try again.';
     } else if (raw.includes('rate-limit') || raw.includes('429') || raw.includes('rate limit')) {
-      errorMsg = 'Trop de demandes. Attends 2 minutes et réessaie.';
+      errorMsg = 'Too many requests. Wait 2 minutes and try again.';
     } else if (raw.includes('not registered') || raw.includes('404') || raw.includes('not-registered')) {
-      errorMsg = 'Ce numéro n\'est pas enregistré sur WhatsApp.';
+      errorMsg = 'This number is not registered on WhatsApp.';
     } else if (raw.includes('Connection Closed') || raw.includes('connection closed')) {
-      errorMsg = 'Connexion perdue. Redémarre le bot et réessaie.';
+      errorMsg = 'Connection lost. Restart the bot and try again.';
     } else if (raw.includes('Unauthorized') || raw.includes('401')) {
-      errorMsg = 'Erreur d\'autorisation. Supprime le dossier session et redémarre.';
+      errorMsg = 'Authorization error. Remove the session folder and restart.';
     } else if (raw.includes('Stream Errored') || raw.includes('stream')) {
-      errorMsg = 'Erreur de flux WhatsApp. Attends 30s et réessaie.';
+      errorMsg = 'WhatsApp stream error. Wait 30 seconds and try again.';
     }
 
     return res.json({ success: false, error: errorMsg });
@@ -124,8 +130,8 @@ app.get('/health', (req, res) => {
 function startWebServer() {
   const PORT = process.env.PORT || config.PORT || 3000;
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`\n🌐 Site de couplage démarré sur le port ${PORT}`);
-    console.log(`📱 Ouvre le site et entre ton numéro WhatsApp pour obtenir le code\n`);
+    console.log(`\n🌐 Pairing website started on port ${PORT}`);
+    console.log(`📱 Open the website and enter your WhatsApp number to receive a code\n`);
   });
 }
 

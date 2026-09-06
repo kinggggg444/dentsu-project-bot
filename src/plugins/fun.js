@@ -93,7 +93,7 @@ async function handle(ctx) {
 
   if (command === 'funmenu') {
     await sock.sendMessage(from, {
-      image: { url: config.MENU_IMAGE },
+      image: { url: config.getMenuImage() },
       caption: FUN_MENU
     }, { quoted: msg });
     return true;

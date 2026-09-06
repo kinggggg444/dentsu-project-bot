@@ -25,7 +25,7 @@ async function handle(ctx) {
 
   if (command === 'mediamenu') {
     await sock.sendMessage(from, {
-      image: { url: config.MENU_IMAGE },
+      image: { url: config.getMenuImage() },
       caption: MEDIA_MENU
     }, { quoted: msg });
     return true;
@@ -73,7 +73,7 @@ async function handle(ctx) {
 
     case 'take': {
       if (!quotedMsg?.stickerMessage) return reply(`❌ Réponds à un sticker!\nUsage: ${config.PREFIX}take [nom] [auteur]\n\n${config.BOT_FOOTER}`);
-      const packname = args[0] || 'DENTSU MD V10';
+      const packname = args[0] || config.BOT_NAME;
       const author = args[1] || config.DEV_NAME;
       reply(`✅ Sticker renommé!\n📦 Pack: ${packname}\n👤 Auteur: ${author}\n\n(Fonctionnalité complète avec sharp/ffmpeg)\n\n${config.BOT_FOOTER}`);
       return true;

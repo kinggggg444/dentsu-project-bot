@@ -128,12 +128,12 @@ async function sendMainMenu(ctx) {
   const P = config.PREFIX;
   const caption =
 `╭──────────────────────╮
-   ◈ DENTSU MD V10 ◈
+   ◈ DENTSU-PROJECT ◈
 ╰──────────────────────╯
 ╭──────────────────────╮
 │ *𝘉𝘰𝘵:* ${config.BOT_NAME}
 │ *𝘋𝘦𝘷:* ${config.DEV_NAME}
-│ *𝘝𝘦𝘳𝘴𝘪𝘰𝘯:* V10
+│ *𝘝𝘦𝘳𝘴𝘪𝘰𝘯:* Glass Carbon
 │ *𝘋𝘢𝘵𝘦:* ${getDate()}
 │ *𝘛𝘪𝘮𝘦:* ${getTime()}
 │ *𝘜𝘴𝘦𝘳:* @${senderNumber}
@@ -394,15 +394,18 @@ async function sendMainMenu(ctx) {
 💬 𝗚𝗿𝗼𝘂𝗽𝗲: ${config.GROUP_LINK}
 ✈️ 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺: ${config.TELEGRAM}
 📋 𝗣𝗿𝗲𝗳𝗶𝘅  ${P}
-> _BY DENTSU MD V10_`;
+> _BY DENTSU-PROJECT · ${config.DEV_NAME}_`;
 
   // Send with clickable URL button
   try {
     await sock.sendMessage(from, {
       image: {
-        url: config.MENU_IMAGE.startsWith('/')
-          ? path.join(__dirname, '../../website/public', config.MENU_IMAGE)
-          : config.MENU_IMAGE,
+        url: (() => {
+          const image = config.getMenuImage();
+          return image.startsWith('/')
+            ? path.join(__dirname, '../../website/public', image)
+            : image;
+        })(),
       },
       caption,
       mentions: [sender],

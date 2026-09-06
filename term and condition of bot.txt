@@ -1,11 +1,11 @@
 /*
 ┏━━━━━━━━━━━━━━━┓
-┃  𝐍𝐀𝐓𝐒𝐔'𝐒 𝐏𝐑𝐎𝐉𝐄𝐂𝐓
+┃  𝐃𝐄𝐍𝐓𝐒𝐔-𝐏𝐑𝐎𝐉𝐄𝐂𝐓
 ┣━━━━━━━━━━━━━━━┛
 ┃whatsapp : +242065121108
-┃owner : Dentsu's project
-┃Dev : Natsu Tech 🇨🇬
-┃maintainer : natsu
+┃owner : Dentsu-project
+┃Dev : NatsuTech's 🇨🇬
+┃maintainer : NatsuTech's
 ┃deals : t.me/Natsu_or_Dentsu
 ┗━━━━━━━━━━━━━━━┛
 */
@@ -17,8 +17,8 @@
 ────────────────────────────────────────────────────────────────
 1. À PROPOS
 ────────────────────────────────────────────────────────────────
-DENTSU MD V10 est un bot d'assistance WhatsApp × Telegram développé
-par Natsu Tech. En connectant ton numéro au bot (via le code de
+Dentsu-project est un bot d'assistance WhatsApp × Telegram développé
+par NatsuTech's. En connectant ton numéro au bot (via le code de
 pairing), tu acceptes automatiquement les conditions ci-dessous.
 
 ────────────────────────────────────────────────────────────────
@@ -61,9 +61,9 @@ ciblé :
   • Contacte immédiatement le Dev (voir ci-dessous).
 
 ────────────────────────────────────────────────────────────────
-5. CONTACT DEV — NATSU TECH
+5. CONTACT DEV — NATSUTECH'S
 ────────────────────────────────────────────────────────────────
-  • Dev        : Natsu Tech 🌸🔥
+  • Dev        : NatsuTech's 🇨🇬
   • WhatsApp 1 : +242065121108
   • WhatsApp 2 : +242053323191
   • Deals      : t.me/Natsu_or_Dentsu
@@ -77,10 +77,10 @@ Tu peux te déconnecter à tout moment avec /delpair sur Telegram,
 ou en supprimant l'appareil lié depuis WhatsApp → Appareils liés.
 
 ────────────────────────────────────────────────────────────────
-En utilisant DENTSU MD V10, tu confirmes avoir lu et accepté ces
+En utilisant Dentsu-project, tu confirmes avoir lu et accepté ces
 Conditions. Toute violation entraîne un bannissement immédiat et
 définitif.
-                  © Natsu Tech — DENTSU MD V10
+                  © NatsuTech's 🇨🇬 — Dentsu-project
 ────────────────────────────────────────────────────────────────
 
 
@@ -89,8 +89,8 @@ définitif.
 ════════════════════════════════════════════════════════════════
 
 1. ABOUT
-DENTSU MD V10 is a WhatsApp × Telegram assistant bot developed by
-Natsu Tech. By connecting your number to the bot (via the pairing
+Dentsu-project is a WhatsApp × Telegram assistant bot developed by
+NatsuTech's. By connecting your number to the bot (via the pairing
 code), you agree to the terms below.
 
 2. ACCEPTABLE USE
@@ -105,9 +105,9 @@ You also agree to the WhatsApp Terms, Privacy Policy and Help
 Center linked above.
 
 4. DEV CONTACT
-Dev: Natsu Tech 🌸🔥 
+Dev: NatsuTech's 🇨🇬
 
-By using DENTSU MD V10 you confirm you have read and accepted
+By using Dentsu-project you confirm you have read and accepted
 these Terms. Violations lead to an immediate, permanent ban.
 
-                  © Natsu Tech — DENTSU MD V10
+                   © NatsuTech's 🇨🇬 — Dentsu-project

@@ -5,7 +5,7 @@ const http = axios.create({
   timeout: 20000,
   headers: {
     Accept: 'application/json, text/plain, */*',
-    'User-Agent': 'DENTSU-MD-V10',
+    'User-Agent': 'Dentsu-project',
   },
 });
 

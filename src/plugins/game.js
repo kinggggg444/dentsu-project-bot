@@ -28,7 +28,7 @@ async function handle(ctx) {
 
   if (command === 'gamemenu') {
     await sock.sendMessage(from, {
-      image: { url: config.MENU_IMAGE },
+      image: { url: config.getMenuImage() },
       caption: GAME_MENU
     }, { quoted: msg });
     return true;

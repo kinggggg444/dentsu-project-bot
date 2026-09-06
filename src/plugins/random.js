@@ -55,7 +55,7 @@ async function handle(ctx) {
 
   if (command === 'randommenu') {
     await sock.sendMessage(from, {
-      image: { url: config.MENU_IMAGE },
+      image: { url: config.getMenuImage() },
       caption: RANDOM_MENU
     }, { quoted: msg });
     return true;

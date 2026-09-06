@@ -29,7 +29,7 @@ const TRANSLATIONS = {
     warning: '⏱️ Le code expire dans <strong>60 secondes</strong> — entre-le rapidement !',
     social_channel: '📢 Canal',
     social_group: '👥 Groupe',
-    footer: document.querySelector('.footer') ? document.querySelector('.footer').textContent : '© 2026 DENTSU MD V10 • Tous droits réservés',
+    footer: document.querySelector('.footer') ? document.querySelector('.footer').textContent : '© 2026 Dentsu-project • All rights reserved',
     error_invalid: 'Entre un numéro valide avec le code pays. Ex: 242xxx',
     error_network: 'Erreur réseau. Vérifie ta connexion et réessaie.',
     success_code: 'Code généré ! Suis les étapes ci-dessous 👇',
@@ -327,17 +327,17 @@ const TRANSLATIONS = {
 const RTL_LANGS = new Set(['ar']);
 
 // ═══ LANGUE ═══
-let currentLang = null;
+let currentLang = 'en';
 // Ne pas charger depuis localStorage — toujours afficher l'overlay au départ
 // pour que l'utilisateur voit les drapeaux image (pas d'emoji)
 
 function t(key) {
-  const tr = TRANSLATIONS[currentLang] || TRANSLATIONS['fr'];
-  return tr[key] !== null && tr[key] !== undefined ? tr[key] : (TRANSLATIONS['fr'][key] || key);
+  const tr = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+  return tr[key] !== null && tr[key] !== undefined ? tr[key] : (TRANSLATIONS.en[key] || key);
 }
 
 function setLang(lang) {
-  if (!TRANSLATIONS[lang]) lang = 'fr';
+  if (!TRANSLATIONS[lang]) lang = 'en';
   currentLang = lang;
   localStorage.setItem('dentsu_lang', lang);
 
@@ -393,9 +393,7 @@ function syncCodeInSteps() {
 
 // ═══ INITIALISATION ═══
 window.addEventListener('DOMContentLoaded', () => {
-  // Toujours montrer l'overlay pour que l'utilisateur choisisse sa langue
-  document.getElementById('langOverlay').style.display = 'flex';
-  document.getElementById('mainContent').style.display = 'none';
+  setLang('en');
 
   // ── Formulaire ──────────────────────────────────────────────────
   const form = document.getElementById('pairForm');
@@ -478,14 +476,14 @@ async function refreshStatus() {
     if (fillElement) fillElement.style.width = `${Math.min(100, (count / max) * 100)}%`;
     if (uptimeElement && Number.isFinite(Number(status.uptime))) uptimeElement.textContent = formatUptime(status.uptime);
     if (availabilityLabel) availabilityLabel.textContent = live ? t('online') : 'Indisponible';
-    if (availabilityDetail) availabilityDetail.textContent = live ? t('ready') : 'Réessaie dans quelques instants';
+    if (availabilityDetail) availabilityDetail.textContent = live ? t('ready') : 'Try again in a moment';
     if (livePill) livePill.classList.toggle('offline-pill', !live);
   } catch (_) {
     const availabilityLabel = document.getElementById('availabilityLabel');
     const availabilityDetail = document.getElementById('availabilityDetail');
     const livePill = document.getElementById('livePill');
-    if (availabilityLabel) availabilityLabel.textContent = 'Indisponible';
-    if (availabilityDetail) availabilityDetail.textContent = 'Réessaie dans quelques instants';
+    if (availabilityLabel) availabilityLabel.textContent = 'Unavailable';
+    if (availabilityDetail) availabilityDetail.textContent = 'Try again in a moment';
     if (livePill) livePill.classList.add('offline-pill');
   }
 }
