@@ -1,5 +1,6 @@
 const config = require('../config');
 const axios = require('axios');
+const { premiumMenu } = require('../lib/menu');
 
 const SEARCH_MENU = `
 ╔══════════════════════╗
@@ -26,7 +27,7 @@ async function handle(ctx) {
   if (command === 'searchmenu') {
     await sock.sendMessage(from, {
       image: { url: config.getMenuImage() },
-      caption: SEARCH_MENU
+      caption: premiumMenu(SEARCH_MENU)
     }, { quoted: msg });
     return true;
   }

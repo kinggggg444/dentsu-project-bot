@@ -112,7 +112,7 @@ async function startSession(number) {
     connectTimeoutMs: 60000,
     defaultQueryTimeoutMs: 60000,   // FIX 1: was 0 (pas de timeout = requêtes bloquées indéfiniment)
     keepAliveIntervalMs: 10000,
-    retryRequestDelayMs: 500,
+    retryRequestDelayMs: 250,
     generateHighQualityLinkPreview: true,
     markOnlineOnConnect: false,     // FIX 2: was true (messages bypassaient le bot)
     syncFullHistory: false,
@@ -198,7 +198,7 @@ async function startSession(number) {
   });
 
   if (!sock.authState.creds.registered) {
-    await delay(3000);
+    await delay(1000);
     try {
       console.log(`[${sanitized}] Requesting pairing code (version ${version.join('.')})...`);
       const code          = await sock.requestPairingCode(sanitized);
@@ -249,7 +249,6 @@ async function startExistingSessions() {
   for (const dir of dirs) {
     try {
       await startSession(dir);
-      await delay(2000);
     } catch (e) {
       console.error(`[BOT] Session error ${dir}:`, e.message);
     }

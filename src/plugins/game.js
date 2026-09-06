@@ -1,4 +1,5 @@
 const config = require('../config');
+const { premiumMenu } = require('../lib/menu');
 
 const GAME_MENU = `
 ╔══════════════════════╗
@@ -29,7 +30,7 @@ async function handle(ctx) {
   if (command === 'gamemenu') {
     await sock.sendMessage(from, {
       image: { url: config.getMenuImage() },
-      caption: GAME_MENU
+      caption: premiumMenu(GAME_MENU)
     }, { quoted: msg });
     return true;
   }

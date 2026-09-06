@@ -1,5 +1,6 @@
 const config = require('../config');
 const axios = require('axios');
+const { premiumMenu } = require('../lib/menu');
 
 const RANDOM_MENU = `
 ╔══════════════════════╗
@@ -56,7 +57,7 @@ async function handle(ctx) {
   if (command === 'randommenu') {
     await sock.sendMessage(from, {
       image: { url: config.getMenuImage() },
-      caption: RANDOM_MENU
+      caption: premiumMenu(RANDOM_MENU)
     }, { quoted: msg });
     return true;
   }

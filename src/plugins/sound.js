@@ -1,4 +1,5 @@
 const config = require('../config');
+const { premiumMenu } = require('../lib/menu');
 
 const SOUND_MENU = `
 ╔══════════════════════╗
@@ -29,7 +30,7 @@ async function handle(ctx) {
   if (command === 'soundmenu') {
     await sock.sendMessage(from, {
       image: { url: config.getMenuImage() },
-      caption: SOUND_MENU
+      caption: premiumMenu(SOUND_MENU)
     }, { quoted: msg });
     return true;
   }

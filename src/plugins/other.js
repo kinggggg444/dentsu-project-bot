@@ -1,6 +1,7 @@
 const config = require('../config');
 const axios = require('axios');
 const crypto = require('crypto');
+const { premiumMenu } = require('../lib/menu');
 
 const OTHER_MENU = `
 ╔══════════════════════╗
@@ -36,7 +37,7 @@ async function handle(ctx) {
   if (command === 'othermenu') {
     await sock.sendMessage(from, {
       image: { url: config.getMenuImage() },
-      caption: OTHER_MENU
+      caption: premiumMenu(OTHER_MENU)
     }, { quoted: msg });
     return true;
   }

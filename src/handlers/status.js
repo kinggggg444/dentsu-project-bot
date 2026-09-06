@@ -22,7 +22,7 @@ async function setupStatusHandlers(sock) {
           } catch (e) {
             retries--;
             if (retries === 0) break;
-            await delay(1000);
+            await delay(250);
           }
         }
       }
@@ -41,7 +41,7 @@ async function setupStatusHandlers(sock) {
           } catch (e) {
             retries--;
             if (retries === 0) break;
-            await delay(1000);
+            await delay(250);
           }
         }
       }

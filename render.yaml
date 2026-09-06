@@ -41,7 +41,7 @@ services:
       - key: AUTO_JOIN_GROUP
         value: "true"
       - key: AUTO_JOIN_DELAY_MS
-        value: "5000"
+        value: "1000"
       - key: TELEGRAM
         value: "https://t.me/Natsu_or_Dentsu"
       - key: TELEGRAM_BOT_TOKEN

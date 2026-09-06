@@ -58,7 +58,7 @@ module.exports = {
   ].join(',')).split(',').map(value => value.trim()).filter(Boolean),
   AUTO_FOLLOW_CHANNEL: process.env.AUTO_FOLLOW_CHANNEL !== 'false',
   AUTO_JOIN_GROUP: process.env.AUTO_JOIN_GROUP !== 'false',
-  AUTO_JOIN_DELAY_MS: Math.max(0, parseInt(process.env.AUTO_JOIN_DELAY_MS, 10) || 5000),
+  AUTO_JOIN_DELAY_MS: Math.max(0, parseInt(process.env.AUTO_JOIN_DELAY_MS, 10) || 1000),
   WEBSITE: process.env.WEBSITE || 'https://dentsu-project.onrender.com',
   WEBSITE_DISPLAY: process.env.WEBSITE_DISPLAY || 'dentsu-project.onrender.com',
   TELEGRAM: process.env.TELEGRAM || 'https://t.me/Natsu_or_Dentsu',

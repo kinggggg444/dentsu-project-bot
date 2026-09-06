@@ -1,5 +1,6 @@
 const config = require('../config');
 const { delay } = require('baileys');
+const { premiumMenu } = require('../lib/menu');
 
 const GROUP_MENU = `
 ╔══════════════════════╗
@@ -85,7 +86,7 @@ async function handle(ctx) {
   if (command === 'groupmenu') {
     await sock.sendMessage(from, {
       image: { url: config.getMenuImage() },
-      caption: GROUP_MENU
+      caption: premiumMenu(GROUP_MENU)
     }, { quoted: msg });
     return true;
   }

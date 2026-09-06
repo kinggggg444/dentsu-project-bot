@@ -3,6 +3,7 @@ const axios = require('axios');
 const { downloadMediaMessage } = require('baileys');
 const fs = require('fs-extra');
 const path = require('path');
+const { premiumMenu } = require('../lib/menu');
 
 const MEDIA_MENU = `
 ╔══════════════════════╗
@@ -26,7 +27,7 @@ async function handle(ctx) {
   if (command === 'mediamenu') {
     await sock.sendMessage(from, {
       image: { url: config.getMenuImage() },
-      caption: MEDIA_MENU
+      caption: premiumMenu(MEDIA_MENU)
     }, { quoted: msg });
     return true;
   }

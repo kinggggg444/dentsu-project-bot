@@ -1,5 +1,6 @@
 const axios = require('axios');
 const config = require('../config');
+const { premiumMenu } = require('../lib/menu');
 
 const AI_MENUS = {
   aimenu: `
@@ -44,7 +45,7 @@ async function handle(ctx) {
   if (AI_MENUS[command]) {
     await sock.sendMessage(from, {
       image: { url: config.getMenuImage() },
-      caption: AI_MENUS[command]
+      caption: premiumMenu(AI_MENUS[command])
     }, { quoted: msg });
     return true;
   }

@@ -122,58 +122,54 @@ async function messageHandler(sock, { messages, type }) {
 async function sendMainMenu(ctx) {
   const { sock, from, msg, sender, senderNumber } = ctx;
 
-  // 🤖 Reaction
-  try { await sock.sendMessage(from, { react: { text: '🤖', key: msg.key } }); } catch (_) {}
-
   const P = config.PREFIX;
   const caption =
-`╭━━━〔 DENTSU PROJECT BOT 🚀 〕━━━╮
-┃ by NatsuTech's 🇨🇬 · Congo-Brazzaville
-┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃ JS · Node.js · Baileys · FR/EN/ES/PT
-╰━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╯
-╭──────────────────────╮
-│ *𝘉𝘰𝘵:* ${config.BOT_NAME}
-│ *𝘋𝘦𝘷:* ${config.DEV_NAME}
-│ *𝘝𝘦𝘳𝘴𝘪𝘰𝘯:* Glass Carbon
-│ *𝘋𝘢𝘵𝘦:* ${getDate()}
-│ *𝘛𝘪𝘮𝘦:* ${getTime()}
-│ *𝘜𝘴𝘦𝘳:* @${senderNumber}
-│ *𝘔𝘰𝘥𝘦:* ${(config.MODE || 'public').toUpperCase()}
-│ *𝘙𝘢𝘮:* ${getRam()}
-│ *𝘏𝘰𝘴𝘵:* ${config.WEBSITE_DISPLAY}
-│ *𝘋𝘢𝘺:* ${getUptime()}
-│ *𝘚𝘪𝘵𝘦:* ${config.WEBSITE_DISPLAY}
-╰──────────────────────╯
+`╔════════════════════════════════════════╗
+║        DENTSU PROJECT BOT 🚀           ║
+╠════════════════════════════════════════╣
+║ by NatsuTech's 🇨🇬 · Congo-Brazzaville ║
+║ JS · Node.js · Baileys · FR/EN/ES/PT   ║
+╚════════════════════════════════════════╝
+╔════════════════════════════════════════╗
+║ *𝘉𝘰𝘵:* ${config.BOT_NAME}
+║ *𝘋𝘦𝘷:* ${config.DEV_NAME}
+║ *𝘝𝘦𝘳𝘴𝘪𝘰𝘯:* Glass Carbon
+║ *𝘋𝘢𝘵𝘦:* ${getDate()}
+║ *𝘛𝘪𝘮𝘦:* ${getTime()}
+║ *𝘜𝘴𝘦𝘳:* @${senderNumber}
+║ *𝘔𝘰𝘥𝘦:* ${(config.MODE || 'public').toUpperCase()}
+║ *𝘙𝘢𝘮:* ${getRam()}
+║ *𝘋𝘢𝘺:* ${getUptime()}
+╚════════════════════════════════════════╝
 
-╭──[ ✧ 𝐎𝐖𝐍𝐄𝐑 𝐂𝐌𝐃 ✧ ]──╮
-│
-│ ⬢ ${P}setpp
-│ ⬢ ${P}setname
-│ ⬢ ${P}setbio
-│ ⬢ ${P}getpp
-│ ⬢ ${P}block
-│ ⬢ ${P}unblock
-│ ⬢ ${P}ban
-│ ⬢ ${P}unban
-│ ⬢ ${P}delete
-│ ⬢ ${P}vv
-│ ⬢ ${P}vv2
-│ ⬢ ${P}broadcast
-│ ⬢ ${P}addsudo
-│ ⬢ ${P}delsudo
-│ ⬢ ${P}listsudo
-│ ⬢ ${P}public
-│ ⬢ ${P}self
-│ ⬢ ${P}ping
-│ ⬢ ${P}alive
-│ ⬢ ${P}runtime
-│ ⬢ ${P}jid
-│ ⬢ ${P}idch
-│ ⬢ ${P}cekidch
-│ ⬢ ${P}pair
-│ ⬢ ${P}qc
-╰──────────────────────╯
+╔══[ ✧ 𝐎𝐖𝐍𝐄𝐑 𝐂𝐌𝐃 ✧ ]══════════════╗
+║
+║ ⬢ ${P}setpp
+║ ⬢ ${P}setname
+║ ⬢ ${P}setbio
+║ ⬢ ${P}getpp
+║ ⬢ ${P}block
+║ ⬢ ${P}unblock
+║ ⬢ ${P}ban
+║ ⬢ ${P}unban
+║ ⬢ ${P}delete
+║ ⬢ ${P}vv
+║ ⬢ ${P}vv2
+║ ⬢ ${P}broadcast
+║ ⬢ ${P}addsudo
+║ ⬢ ${P}delsudo
+║ ⬢ ${P}listsudo
+║ ⬢ ${P}public
+║ ⬢ ${P}self
+║ ⬢ ${P}ping
+║ ⬢ ${P}alive
+║ ⬢ ${P}runtime
+║ ⬢ ${P}jid
+║ ⬢ ${P}idch
+║ ⬢ ${P}cekidch
+║ ⬢ ${P}pair
+║ ⬢ ${P}qc
+╚════════════════════════════════════════╝
 
 ╭──[ ✧ 𝐆𝐑𝐎𝐔𝐏 𝐂𝐌𝐃 ✧ ]──╮
 │
@@ -392,13 +388,18 @@ async function sendMainMenu(ctx) {
 │ ⬢ ${P}rwaifu
 ╰──────────────────────╯
 
-🌐 ${config.WEBSITE_DISPLAY}
-💬 𝗚𝗿𝗼𝘂𝗽𝗲: ${config.GROUP_LINK}
-✈️ 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺: ${config.TELEGRAM}
 📋 𝗣𝗿𝗲𝗳𝗶𝘅  ${P}
 > _DENTSU PROJECT BOT 🚀 · ${config.DEV_NAME}_`;
 
-  // Send with clickable URL button
+  const premiumCaption = caption
+    .replaceAll('╭', '╔')
+    .replaceAll('╮', '╗')
+    .replaceAll('╰', '╚')
+    .replaceAll('╯', '╝')
+    .replaceAll('─', '═')
+    .replaceAll('━', '═')
+    .replaceAll('│', '║');
+
   try {
     await sock.sendMessage(from, {
       image: {
@@ -409,11 +410,11 @@ async function sendMainMenu(ctx) {
             : image;
         })(),
       },
-      caption,
+      caption: premiumCaption,
       mentions: [sender],
     }, { quoted: msg });
   } catch (_) {
-    await sock.sendMessage(from, { text: caption, mentions: [sender] }, { quoted: msg });
+    await sock.sendMessage(from, { text: premiumCaption, mentions: [sender] }, { quoted: msg });
   }
 }
 

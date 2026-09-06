@@ -84,11 +84,15 @@ function startTelegram() {
 
   bot.onText(/^\/ping$/, async (msg) => {
     const started = Date.now();
-    const sent = await bot.sendMessage(msg.chat.id, '🏓 Pong!');
-    await bot.editMessageText(`🏓 Pong! ${Date.now() - started} ms`, {
-      chat_id: msg.chat.id,
-      message_id: sent.message_id,
-    });
+    try {
+      const sent = await bot.sendMessage(msg.chat.id, '🏓 Pong!');
+      await bot.editMessageText(`🏓 Pong! ${Date.now() - started} ms`, {
+        chat_id: msg.chat.id,
+        message_id: sent.message_id,
+      });
+    } catch (error) {
+      console.error('[TELEGRAM] Ping error:', error.message);
+    }
   });
 
   bot.onText(/^\/getmyid$/, (msg) =>
@@ -170,15 +174,30 @@ function startTelegram() {
   });
 
   bot.on('polling_error', (error) => {
-    console.error('[TELEGRAM] Polling error:', error.message);
+    console.error('[TELEGRAM] Polling error:', error.code || '', error.message);
   });
-  bot.deleteWebHook({ drop_pending_updates: false })
-    .catch((error) => {
-      console.warn('[TELEGRAM] Could not clear an existing webhook:', error.message);
-    })
-    .then(() => bot.startPolling({ params: { timeout: 30 } }))
-    .then(() => console.log('[TELEGRAM] Pairing bridge started.'))
-    .catch((error) => console.error('[TELEGRAM] Polling could not start:', error.message));
+  bot.on('webhook_error', (error) => {
+    console.error('[TELEGRAM] Webhook error:', error.message);
+  });
+  bot.on('error', (error) => {
+    console.error('[TELEGRAM] Client error:', error.message);
+  });
+
+  (async () => {
+    try {
+      await bot.deleteWebHook({ drop_pending_updates: false });
+      await bot.startPolling({
+        params: {
+          timeout: 30,
+          allowed_updates: ['message'],
+        },
+      });
+      const account = await bot.getMe();
+      console.log(`[TELEGRAM] Pairing bridge started as @${account.username || account.id}.`);
+    } catch (error) {
+      console.error('[TELEGRAM] Polling could not start:', error.message);
+    }
+  })();
   return bot;
 }
 

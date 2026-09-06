@@ -2,6 +2,7 @@ const config = require('../config');
 const fs = require('fs-extra');
 const { delay } = require('baileys');
 const store = require('../lib/store');
+const { premiumMenu } = require('../lib/menu');
 
 const OWNER_MENU = `
 ╔══════════════════════╗
@@ -50,7 +51,7 @@ async function handle(ctx) {
   if (command === 'ownermenu') {
     await sock.sendMessage(from, {
       image: { url: config.getMenuImage() },
-      caption: OWNER_MENU
+      caption: premiumMenu(OWNER_MENU)
     }, { quoted: msg });
     return true;
   }
