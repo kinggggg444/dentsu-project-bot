@@ -127,9 +127,11 @@ async function sendMainMenu(ctx) {
 
   const P = config.PREFIX;
   const caption =
-`╭──────────────────────╮
-   ◈ DENTSU-PROJECT ◈
-╰──────────────────────╯
+`╭━━━〔 DENTSU PROJECT BOT 🚀 〕━━━╮
+┃ by NatsuTech's 🇨🇬 · Congo-Brazzaville
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ JS · Node.js · Baileys · FR/EN/ES/PT
+╰━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╯
 ╭──────────────────────╮
 │ *𝘉𝘰𝘵:* ${config.BOT_NAME}
 │ *𝘋𝘦𝘷:* ${config.DEV_NAME}
@@ -394,7 +396,7 @@ async function sendMainMenu(ctx) {
 💬 𝗚𝗿𝗼𝘂𝗽𝗲: ${config.GROUP_LINK}
 ✈️ 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺: ${config.TELEGRAM}
 📋 𝗣𝗿𝗲𝗳𝗶𝘅  ${P}
-> _BY DENTSU-PROJECT · ${config.DEV_NAME}_`;
+> _DENTSU PROJECT BOT 🚀 · ${config.DEV_NAME}_`;
 
   // Send with clickable URL button
   try {
