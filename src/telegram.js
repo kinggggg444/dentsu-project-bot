@@ -23,12 +23,12 @@ function uptime(seconds) {
 
 function telegramMenu() {
   return [
-    `╔══════════════════════════════╗`,
-    `║      DENTSU-PROJECT 🚀       ║`,
-    `╠══════════════════════════════╣`,
-    `║  WhatsApp × Telegram Bridge  ║`,
-    `║  Developer: NatsuTech's 🇨🇬  ║`,
-    `╚══════════════════════════════╝`,
+    `╔══════════════════════════════════════╗`,
+    `║     DENTSU PROJECT BOT 🚀            ║`,
+    `╠══════════════════════════════════════╣`,
+    `║ by NatsuTech's 🇨🇬 · Congo-Brazzaville ║`,
+    `║ JS · Node.js · Baileys · FR/EN/ES/PT  ║`,
+    `╚══════════════════════════════════════╝`,
     '',
     '⚡ Fast WhatsApp pairing',
     '🛡️ Persistent multi-session support',
