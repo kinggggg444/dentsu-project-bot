@@ -4,6 +4,7 @@ const { getContentType } = require('baileys');
 const { getTime, getDate, getRam, getUptime } = require('../lib/utils');
 const { isOwner } = require('../lib/utils');
 const { handleCommand } = require('../commands');
+const { premiumBox, premiumHeader } = require('../lib/menu');
 
 const NO_PREFIX_CMDS = new Set(['menu','help','bug','bugmenu','bot','allmenu']);
 
@@ -123,24 +124,22 @@ async function sendMainMenu(ctx) {
   const { sock, from, msg, sender, senderNumber } = ctx;
 
   const P = config.PREFIX;
+  const header = [
+    ...premiumHeader(),
+    ...premiumBox([
+      ` *𝘉𝘰𝘵:* ${config.BOT_NAME}`,
+      ` *𝘋𝘦𝘷:* ${config.DEV_NAME}`,
+      ' *𝘝𝘦𝘳𝘴𝘪𝘰𝘯:* Glass Carbon',
+      ` *𝘋𝘢𝘵𝘦:* ${getDate()}`,
+      ` *𝘛𝘪𝘮𝘦:* ${getTime()}`,
+      ` *𝘜𝘴𝘦𝘳:* @${senderNumber}`,
+      ` *𝘔𝘰𝘥𝘦:* ${(config.MODE || 'public').toUpperCase()}`,
+      ` *𝘙𝘢𝘮:* ${getRam()}`,
+      ` *𝘋𝘢𝘺:* ${getUptime()}`,
+    ]),
+  ].join('\n');
   const caption =
-`╔════════════════════════════════════════╗
-║        DENTSU PROJECT BOT 🚀           ║
-╠════════════════════════════════════════╣
-║ by NatsuTech's 🇨🇬 · Congo-Brazzaville ║
-║ JS · Node.js · Baileys · FR/EN/ES/PT   ║
-╚════════════════════════════════════════╝
-╔════════════════════════════════════════╗
-║ *𝘉𝘰𝘵:* ${config.BOT_NAME}
-║ *𝘋𝘦𝘷:* ${config.DEV_NAME}
-║ *𝘝𝘦𝘳𝘴𝘪𝘰𝘯:* Glass Carbon
-║ *𝘋𝘢𝘵𝘦:* ${getDate()}
-║ *𝘛𝘪𝘮𝘦:* ${getTime()}
-║ *𝘜𝘴𝘦𝘳:* @${senderNumber}
-║ *𝘔𝘰𝘥𝘦:* ${(config.MODE || 'public').toUpperCase()}
-║ *𝘙𝘢𝘮:* ${getRam()}
-║ *𝘋𝘢𝘺:* ${getUptime()}
-╚════════════════════════════════════════╝
+`${header}
 
 ╔══[ ✧ 𝐎𝐖𝐍𝐄𝐑 𝐂𝐌𝐃 ✧ ]══════════════╗
 ║

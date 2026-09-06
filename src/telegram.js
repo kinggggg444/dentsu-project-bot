@@ -1,6 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const config = require('./config');
 const store = require('./lib/store');
+const { premiumHeader } = require('./lib/menu');
 
 const startTime = Date.now();
 const pendingPairs = new Set();
@@ -23,12 +24,7 @@ function uptime(seconds) {
 
 function telegramMenu() {
   return [
-    `╔══════════════════════════════════════╗`,
-    `║     DENTSU PROJECT BOT 🚀            ║`,
-    `╠══════════════════════════════════════╣`,
-    `║ by NatsuTech's 🇨🇬 · Congo-Brazzaville ║`,
-    `║ JS · Node.js · Baileys · FR/EN/ES/PT  ║`,
-    `╚══════════════════════════════════════╝`,
+    ...premiumHeader(),
     '',
     '⚡ Fast WhatsApp pairing',
     '🛡️ Persistent multi-session support',

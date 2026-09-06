@@ -11,6 +11,29 @@ function frameLine(value = '') {
   return `║${visible.padEnd(INNER_WIDTH, ' ')}║`;
 }
 
+function centeredLine(value = '') {
+  const text = String(value);
+  const padding = Math.max(0, INNER_WIDTH - text.length);
+  const left = Math.floor(padding / 2);
+  return frameLine(`${' '.repeat(left)}${text}`);
+}
+
+function premiumBox(lines = []) {
+  return [
+    border('╔', '═', '╗'),
+    ...lines.map((line) => frameLine(line)),
+    border('╚', '═', '╝'),
+  ];
+}
+
+function premiumHeader(title = 'DENTSU PROJECT BOT 🚀') {
+  return [
+    border('╔', '═', '╗'),
+    centeredLine(title),
+    border('╚', '═', '╝'),
+  ];
+}
+
 function premiumMenu(rawMenu) {
   const lines = String(rawMenu)
     .trim()
@@ -53,4 +76,4 @@ function premiumMenu(rawMenu) {
   ].join('\n');
 }
 
-module.exports = { premiumMenu };
+module.exports = { premiumMenu, premiumBox, premiumHeader };
