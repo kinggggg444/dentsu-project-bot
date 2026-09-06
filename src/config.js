@@ -7,7 +7,7 @@ const configuredBotName = String(process.env.BOT_NAME || '').trim();
 const BOT_NAME =
   configuredBotName && !/(?:DENTSU\s*MD|DENTSU-MD|V10)/i.test(configuredBotName)
     ? configuredBotName
-    : 'Dentsu-project';
+    : 'DENTSU PROJECT BOT 🚀';
 const MENU_IMAGES = (process.env.MENU_IMAGES || [
   `${BOT_IMAGE_BASE}/dentsu-project-carbon-01.png`,
   `${BOT_IMAGE_BASE}/dentsu-project-carbon-02.png`,
@@ -25,11 +25,12 @@ module.exports = {
   BOT_NAME,
   VERSION: process.env.APP_VERSION || packageInfo.version || '1.0.0',
   DEV_NAME: process.env.DEV_NAME || "NatsuTech's 🇨🇬",
+  DEV_NUMBER: process.env.DEV_NUMBER || '242053323191',
   PREFIX: process.env.PREFIX || '.',
   PREFIXES: (process.env.PREFIXES || '.,!,/,#,$').split(',').map(p => p.trim()).filter(Boolean),
   MODE: process.env.MODE || 'public',
-  OWNER_NUMBER: process.env.OWNER_NUMBER || '242065121108',
-  OWNER_NUMBERS: (process.env.OWNER_NUMBERS || process.env.OWNER_NUMBER || '242065121108,242068586731')
+  OWNER_NUMBER: process.env.OWNER_NUMBER || '242053323191',
+  OWNER_NUMBERS: (process.env.OWNER_NUMBERS || process.env.OWNER_NUMBER || '242053323191')
     .split(',')
     .map(number => number.replace(/\D/g, ''))
     .filter(Boolean),

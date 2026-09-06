@@ -62,7 +62,7 @@ const TRANSLATIONS = {
     guide_one: 'Enter your number with the country code.',
     guide_two: 'Get your unique pairing code.',
     guide_three: 'Confirm it in Linked Devices.',
-    h2_connect: '📱 Connect WhatsApp',
+    h2_connect: '📱 Connecter WhatsApp',
     subtitle_connect: 'Enter your number with country code to get your pairing code',
     hint: '⚠️ Include country code without + (e.g. <strong>242</strong>XXXXXXXX)',
     btn_pair: '📲 Get my code',

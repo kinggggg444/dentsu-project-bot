@@ -7,19 +7,21 @@ services:
     plan: free
     envVars:
       - key: BOT_NAME
-        value: "Dentsu-project"
+        value: "DENTSU PROJECT BOT 🚀"
       - key: APP_VERSION
         value: "1.0.0"
       - key: DEV_NAME
         value: "NatsuTech's 🇨🇬"
+      - key: DEV_NUMBER
+        value: "242053323191"
       - key: PREFIX
         value: "."
       - key: MODE
         value: "public"
       - key: OWNER_NUMBER
-        value: "242065121108"
+        value: "242053323191"
       - key: OWNER_NUMBERS
-        value: "242065121108,242068586731"
+        value: "242053323191"
       - key: MENU_IMAGE
         value: "https://raw.githubusercontent.com/kinggggg444/dentsu-project-bot/main/assets/dentsu-project-carbon-01.png"
       - key: MENU_IMAGES

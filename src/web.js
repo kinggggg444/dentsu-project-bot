@@ -25,6 +25,7 @@ app.get('/', (req, res) => {
   res.render('index', {
     botName: config.BOT_NAME,
     devName: config.DEV_NAME,
+    devNumber: config.DEV_NUMBER,
     menuImage: config.getMenuImage(),
     menuImages: config.MENU_IMAGES,
     channelLink: config.CHANNEL_LINK,

@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#090a0d">
-  <meta name="description" content="Connect your WhatsApp account to Dentsu-project with a secure pairing code.">
-  <title><%= botName %> — Pairing Center</title>
+  <meta name="description" content="DENTSU PROJECT BOT — connexion WhatsApp par code de jumelage.">
+  <title><%= botName %></title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,9 +18,9 @@
 
   <main class="shell" id="mainContent">
     <header class="topbar">
-        <a class="brand" href="/" aria-label="Dentsu-project home">
+        <a class="brand" href="/" aria-label="DENTSU PROJECT BOT home">
         <span class="brand-icon"><img src="<%= menuImage %>" alt=""></span>
-        <span class="brand-copy"><strong><%= botName %></strong><small>PAIRING CENTER</small></span>
+        <span class="brand-copy"><strong><%= botName %></strong><small>NATSU GRADNIGR / BOT LAB</small></span>
       </a>
       <div class="top-actions">
           <span class="live-pill" id="livePill"><i class="pulse-dot"></i><span data-i18n="live">Système en ligne</span></span>
@@ -29,33 +29,33 @@
 
     <section class="hero">
       <div class="hero-copy">
-        <span class="eyebrow"><span class="eyebrow-line"></span> WHATSAPP AUTOMATION / GLASS CARBON</span>
-        <h1>Your WhatsApp.<br><span>Your assistant.</span><br>Ready in seconds.</h1>
-        <p class="hero-lede">Pair your number with a fast, stable bot experience designed to stay simple and reliable.</p>
+        <span class="eyebrow"><span class="eyebrow-line"></span> NATSU GRADNIGR / WHATSAPP BOT</span>
+        <h1><%= botName %><br><span>by <%= devName %></span></h1>
+        <p class="hero-lede">Un bot WhatsApp rapide, stable et pensé pour connecter ton numéro en quelques secondes.</p>
         <div class="hero-meta">
-          <span><b class="meta-dot"></b><span data-i18n="secure">Secure connection</span></span>
-          <span><b>50</b> <span data-i18n="multi">multi-session capacity</span></span>
+          <span><b class="meta-dot"></b><span data-i18n="secure">Connexion sécurisée</span></span>
+          <span><b>50</b> <span data-i18n="multi">sessions disponibles</span></span>
         </div>
       </div>
       <div class="hero-visual">
         <div class="visual-halo"></div>
         <div class="visual-ring ring-a"></div>
         <div class="visual-ring ring-b"></div>
-        <img src="<%= menuImage %>" alt="<%= botName %> Glass Carbon artwork" class="bot-image">
-        <div class="visual-strip" aria-label="Dentsu-project artwork">
-          <% (menuImages || []).forEach((image, index) => { %><img src="<%= image %>" alt="Glass Carbon artwork <%= index + 1 %>"><% }) %>
+        <img src="<%= menuImage %>" alt="<%= botName %> artwork" class="bot-image">
+        <div class="visual-strip" aria-label="DENTSU PROJECT BOT artwork">
+          <% (menuImages || []).forEach((image, index) => { %><img src="<%= image %>" alt="Bot artwork <%= index + 1 %>"><% }) %>
         </div>
         <div class="visual-tag tag-top"><span class="tag-dot"></span> ONLINE</div>
-        <div class="visual-tag tag-bottom"><span>WA</span> READY TO PAIR</div>
+        <div class="visual-tag tag-bottom"><span>WA</span> PRÊT À CONNECTER</div>
       </div>
     </section>
 
     <section class="dashboard-grid">
-      <div class="pair-card panel">
+      <div class="pair-card panel whatsapp-frame">
         <div class="panel-heading">
           <div>
-            <span class="step-label">01 / CONNECT</span>
-            <h2 data-i18n="h2_connect">Connect WhatsApp</h2>
+            <span class="step-label">01 / WHATSAPP</span>
+            <h2 data-i18n="h2_connect">📱 Connecter WhatsApp</h2>
           </div>
           <span class="panel-number">01</span>
         </div>
@@ -97,8 +97,9 @@
           <div class="guide-item"><span>03</span><p data-i18n="guide_three">Confirm it in Linked Devices.</p></div>
         </div>
 
-        <div class="social-card panel">
+        <div class="social-card panel developer-card">
           <span class="step-label">STAY CONNECTED</span>
+          <div class="developer-line"><span class="developer-mark">NT</span><div><strong><%= devName %></strong><small>Développeur · +<%= devNumber %></small></div></div>
           <div class="social-links">
        <% if (groupLink) { %><a href="<%= groupLink %>" target="_blank" rel="noreferrer" class="social-btn group-btn"><span>GR</span><b data-i18n="social_group">WhatsApp group</b><i>↗</i></a><% } %>
             <% if (telegram) { %><a href="<%= telegram %>" target="_blank" rel="noreferrer" class="social-btn telegram-btn"><span>TG</span><b>Telegram</b><i>↗</i></a><% } %>
@@ -109,8 +110,8 @@
     </section>
 
     <footer class="footer">
-      <span>© 2026 <%= botName %></span><span class="footer-separator">/</span><span>crafted by <strong><%= devName %></strong></span>
-       <span class="footer-version">GLASS CARBON / ONLINE</span>
+      <span>© 2026 <%= botName %></span><span class="footer-separator">/</span><span>créé par <strong><%= devName %></strong></span>
+       <span class="footer-version">NATSU GRADNIGR / ONLINE</span>
     </footer>
   </main>
 
