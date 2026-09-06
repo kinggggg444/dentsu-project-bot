@@ -2,7 +2,7 @@ require('dotenv').config();
 const packageInfo = require('../package.json');
 
 const BOT_IMAGE_BASE =
-  'https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets';
+  'https://raw.githubusercontent.com/kinggggg444/dentsu-project-bot/main/assets';
 const configuredBotName = String(process.env.BOT_NAME || '').trim();
 const BOT_NAME =
   configuredBotName && !/(?:DENTSU\s*MD|DENTSU-MD|V10)/i.test(configuredBotName)
