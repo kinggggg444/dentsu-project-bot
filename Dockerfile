@@ -11,7 +11,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
-RUN npm install --omit=dev --legacy-peer-deps
+RUN npm ci --omit=dev --legacy-peer-deps
 
 COPY . .
 RUN mkdir -p session tmp
