@@ -1,15 +1,15 @@
 services:
   - type: web
-    name: dentsu-md-v10
+    name: dentsu-project
     runtime: docker
     dockerfilePath: ./Dockerfile
     dockerContext: .
     plan: free
     envVars:
       - key: BOT_NAME
-        value: "DENTSU MD V10"
+        value: "Dentsu-project"
       - key: DEV_NAME
-        value: "natsu242"
+        value: "NatsuTech's 🇨🇬"
       - key: PREFIX
         value: "."
       - key: MODE
@@ -19,7 +19,9 @@ services:
       - key: OWNER_NUMBERS
         value: "242065121108,242068586731"
       - key: MENU_IMAGE
-        value: "https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/bot-avatar.png"
+        value: "https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/dentsu-project-carbon-01.png"
+      - key: MENU_IMAGES
+        value: "https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/dentsu-project-carbon-01.png,https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/dentsu-project-carbon-02.png,https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/dentsu-project-carbon-03.png"
       - key: CHANNEL_LINK
         value: "https://whatsapp.com/channel/0029VbC1s7fFnSz1YhZYc01h"
       - key: GROUP_LINK
@@ -38,10 +40,14 @@ services:
         value: "5000"
       - key: TELEGRAM
         value: "https://t.me/Natsu_or_Dentsu"
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_ADMINS
+        sync: false
       - key: WEBSITE
-        value: "https://dentsu-md-v10.onrender.com"
+        value: "https://dentsu-project.onrender.com"
       - key: WEBSITE_DISPLAY
-        value: "dentsu-md-v10.onrender.com"
+        value: "dentsu-project.onrender.com"
       - key: MAX_SESSIONS
         value: "50"
       - key: NODE_ENV

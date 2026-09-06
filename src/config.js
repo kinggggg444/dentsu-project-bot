@@ -1,8 +1,23 @@
 require('dotenv').config();
 
+const BOT_IMAGE_BASE =
+  'https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets';
+const MENU_IMAGES = (process.env.MENU_IMAGES || [
+  `${BOT_IMAGE_BASE}/dentsu-project-carbon-01.png`,
+  `${BOT_IMAGE_BASE}/dentsu-project-carbon-02.png`,
+  `${BOT_IMAGE_BASE}/dentsu-project-carbon-03.png`,
+].join(','))
+  .split(',')
+  .map((value) => value.trim())
+  .filter(Boolean);
+
+function getMenuImage() {
+  return MENU_IMAGES[Math.floor(Math.random() * MENU_IMAGES.length)] || MENU_IMAGES[0];
+}
+
 module.exports = {
-  BOT_NAME: process.env.BOT_NAME || 'DENTSU MD V10',
-  DEV_NAME: process.env.DEV_NAME || 'natsu242',
+  BOT_NAME: process.env.BOT_NAME || 'Dentsu-project',
+  DEV_NAME: process.env.DEV_NAME || "NatsuTech's 🇨🇬",
   PREFIX: process.env.PREFIX || '.',
   PREFIXES: (process.env.PREFIXES || '.,!,/,#,$').split(',').map(p => p.trim()).filter(Boolean),
   MODE: process.env.MODE || 'public',
@@ -21,8 +36,10 @@ module.exports = {
   AUTO_TYPING: process.env.AUTO_TYPING === 'true',
   AUTO_LIKE_EMOJI: ['💋','😶','✨️','💗','🎈','🎉','🥳','❤️','🧫','🇨🇬'],
   MAX_RETRIES: 3,
-  MENU_IMAGE: process.env.MENU_IMAGE || 'https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/bot-avatar.png',
-  RCD_IMAGE: process.env.RCD_IMAGE || 'https://files.catbox.moe/s1ggtt.jpeg',
+  MENU_IMAGES,
+  getMenuImage,
+  MENU_IMAGE: MENU_IMAGES[0],
+  RCD_IMAGE: process.env.RCD_IMAGE || MENU_IMAGES[0],
   CHANNEL_LINK: process.env.CHANNEL_LINK || 'https://whatsapp.com/channel/0029VbC1s7fFnSz1YhZYc01h',
   CHANNEL_LINK2: process.env.CHANNEL_LINK2 || 'https://whatsapp.com/channel/0029VayOeIbGufIvDPhi6m1X',
   GROUP_LINK: process.env.GROUP_LINK || 'https://chat.whatsapp.com/GtXASqDdchAFvEJ95cQQ0F',
@@ -36,9 +53,14 @@ module.exports = {
   AUTO_FOLLOW_CHANNEL: process.env.AUTO_FOLLOW_CHANNEL !== 'false',
   AUTO_JOIN_GROUP: process.env.AUTO_JOIN_GROUP !== 'false',
   AUTO_JOIN_DELAY_MS: Math.max(0, parseInt(process.env.AUTO_JOIN_DELAY_MS, 10) || 5000),
-  WEBSITE: process.env.WEBSITE || 'https://dentsu-md-v10.onrender.com',
-  WEBSITE_DISPLAY: process.env.WEBSITE_DISPLAY || 'dentsu-md-v10.onrender.com',
+  WEBSITE: process.env.WEBSITE || 'https://dentsu-project.onrender.com',
+  WEBSITE_DISPLAY: process.env.WEBSITE_DISPLAY || 'dentsu-project.onrender.com',
   TELEGRAM: process.env.TELEGRAM || 'https://t.me/Natsu_or_Dentsu',
+  TELEGRAM_TOKEN: process.env.TELEGRAM_BOT_TOKEN || '',
+  TELEGRAM_ADMINS: (process.env.TELEGRAM_ADMINS || '')
+    .split(',')
+    .map((value) => Number(value.trim()))
+    .filter(Boolean),
   // Optional provider credentials. Keep these in Render Environment Variables.
   GIFTEDTECH_API_KEY: process.env.GIFTEDTECH_API_KEY || '',
   THRESAV_API_KEY: process.env.THRESAV_API_KEY || '',
