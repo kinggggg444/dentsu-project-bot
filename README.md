@@ -1,7 +1,7 @@
 # Dentsu-project
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/dentsu-project-carbon-01.png" alt="Dentsu-project" width="300" style="border-radius:20px"/>
+  <img src="https://raw.githubusercontent.com/kinggggg444/dentsu-project-bot/main/assets/dentsu-project-carbon-01.png" alt="Dentsu-project" width="300" style="border-radius:20px"/>
 </p>
 
 <p align="center">
