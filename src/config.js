@@ -8,11 +8,7 @@ const BOT_NAME =
   configuredBotName && !/(?:DENTSU\s*MD|DENTSU-MD|V10)/i.test(configuredBotName)
     ? configuredBotName
     : 'DENTSU PROJECT BOT 🚀';
-const MENU_IMAGES = (process.env.MENU_IMAGES || [
-  `${BOT_IMAGE_BASE}/dentsu-project-carbon-01.png`,
-  `${BOT_IMAGE_BASE}/dentsu-project-carbon-02.png`,
-  `${BOT_IMAGE_BASE}/dentsu-project-carbon-03.png`,
-].join(','))
+const MENU_IMAGES = (process.env.MENU_IMAGES || process.env.MENU_IMAGE || `${BOT_IMAGE_BASE}/dentsu-project-bot-official.png`)
   .split(',')
   .map((value) => value.trim())
   .filter(Boolean);
