@@ -21,9 +21,9 @@ services:
       - key: OWNER_NUMBERS
         value: "242065121108,242068586731"
       - key: MENU_IMAGE
-        value: "https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/dentsu-project-carbon-01.png"
+        value: "https://raw.githubusercontent.com/kinggggg444/dentsu-project-bot/main/assets/dentsu-project-carbon-01.png"
       - key: MENU_IMAGES
-        value: "https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/dentsu-project-carbon-01.png,https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/dentsu-project-carbon-02.png,https://raw.githubusercontent.com/kinggggg444/DENTSU-MD-V10/main/assets/dentsu-project-carbon-03.png"
+        value: "https://raw.githubusercontent.com/kinggggg444/dentsu-project-bot/main/assets/dentsu-project-carbon-01.png,https://raw.githubusercontent.com/kinggggg444/dentsu-project-bot/main/assets/dentsu-project-carbon-02.png,https://raw.githubusercontent.com/kinggggg444/dentsu-project-bot/main/assets/dentsu-project-carbon-03.png"
       - key: CHANNEL_LINK
         value: "https://whatsapp.com/channel/0029VbC1s7fFnSz1YhZYc01h"
       - key: GROUP_LINK
