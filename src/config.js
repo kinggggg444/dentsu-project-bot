@@ -62,6 +62,7 @@ module.exports = {
   WEBSITE: process.env.WEBSITE || 'https://dentsu-project.onrender.com',
   WEBSITE_DISPLAY: process.env.WEBSITE_DISPLAY || 'dentsu-project.onrender.com',
   TELEGRAM: process.env.TELEGRAM || 'https://t.me/Natsu_or_Dentsu',
+  SUPPORT_EMAIL: process.env.SUPPORT_EMAIL || '',
   TELEGRAM_TOKEN: process.env.TELEGRAM_BOT_TOKEN || '',
   TELEGRAM_ADMINS: (process.env.TELEGRAM_ADMINS || '')
     .split(',')
