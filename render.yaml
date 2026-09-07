@@ -44,6 +44,8 @@ services:
         value: "1000"
       - key: TELEGRAM
         value: "https://t.me/Natsu_or_Dentsu"
+      - key: SUPPORT_EMAIL
+        sync: false
       - key: TELEGRAM_BOT_TOKEN
         sync: false
       - key: TELEGRAM_ADMINS
