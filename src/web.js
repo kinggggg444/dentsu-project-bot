@@ -2,13 +2,15 @@ const express = require('express');
 const path = require('path');
 const store = require('./lib/store');
 const config = require('./config');
+const { askDentsuAI } = require('./lib/ai');
+const { youtubeAudio } = require('./lib/external-apis');
 
 const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../website/views'));
 app.use(express.static(path.join(__dirname, '../website/public')));
-app.use(express.json());
+app.use(express.json({ limit: '32kb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // Garder les requêtes de pairing en cours (éviter les doublons)
@@ -32,10 +34,69 @@ app.get('/', (req, res) => {
     channelLink2: config.CHANNEL_LINK2,
     groupLink: config.GROUP_LINK,
     telegram: config.TELEGRAM,
+    supportEmail: config.SUPPORT_EMAIL,
     website: config.WEBSITE,
     sessions: store.sessionCount(),
     maxSessions: config.MAX_SESSIONS,
     uptime: Math.floor(process.uptime()),
+  });
+});
+
+// ── Assistant IA du site ────────────────────────────────────────────
+app.post('/api/ai', async (req, res) => {
+  const prompt = String(req.body?.prompt || '').trim();
+  if (!prompt) return res.status(400).json({ success: false, error: 'Write a question first.' });
+  if (prompt.length > 2000) return res.status(400).json({ success: false, error: 'Your question is too long.' });
+
+  try {
+    const answer = await askDentsuAI(prompt);
+    return res.json({ success: true, answer });
+  } catch (error) {
+    console.error('[WEB] AI error:', error.message);
+    return res.status(502).json({ success: false, error: 'The assistant is temporarily unavailable. Try again shortly.' });
+  }
+});
+
+// ── Téléchargement audio ────────────────────────────────────────────
+app.post('/api/download/song', async (req, res) => {
+  const query = String(req.body?.query || '').trim();
+  if (!query) return res.status(400).json({ success: false, error: 'Enter a song title or a supported link.' });
+  if (query.length > 300) return res.status(400).json({ success: false, error: 'The search is too long.' });
+
+  try {
+    const result = await youtubeAudio(query);
+    return res.json({
+      success: true,
+      title: result.title,
+      thumbnail: result.thumbnail || null,
+      url: result.url,
+      note: 'Use downloads only for content you are allowed to save.',
+    });
+  } catch (error) {
+    console.error('[WEB] Audio download error:', error.message);
+    return res.status(502).json({ success: false, error: 'No audio result was found. Try a title or direct video link.' });
+  }
+});
+
+// ── Diagnostic sans payload ni envoi automatique ────────────────────
+app.post('/api/safe-diagnostics', (req, res) => {
+  const number = String(req.body?.number || '').replace(/\D/g, '');
+  const issue = String(req.body?.issue || '').trim().slice(0, 120);
+  if (number.length < 7 || number.length > 15) {
+    return res.status(400).json({ success: false, error: 'Enter a valid WhatsApp number with country code.' });
+  }
+  if (!issue) return res.status(400).json({ success: false, error: 'Describe the issue to prepare a support report.' });
+
+  const reference = `DNT-${Date.now().toString(36).toUpperCase()}`;
+  return res.json({
+    success: true,
+    reference,
+    message: 'A safe support report is ready. No message or payload was sent to the number.',
+    checklist: [
+      'Update WhatsApp from the official app store.',
+      'Check Linked Devices and remove unknown sessions.',
+      'Use the official WhatsApp support form if the account is restricted.',
+    ],
   });
 });
 
