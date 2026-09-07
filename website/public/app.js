@@ -456,9 +456,63 @@ window.addEventListener('DOMContentLoaded', () => {
 
   refreshStatus();
   window.setInterval(refreshStatus, 20000);
+  mountToolSections();
   setupToolForms();
   setupScrollReveal();
 });
+
+function mountToolSections() {
+  const root = document.getElementById('mainContent');
+  if (!root || document.getElementById('services')) return;
+  const pairCard = root.querySelector('.pair-card');
+  if (pairCard) pairCard.id = 'pairing';
+  const markup = `
+    <section class="feature-rail reveal" id="services" aria-labelledby="servicesTitle">
+      <div class="section-heading">
+        <div><span class="step-label">02 / DENTSU TOOLS</span><h2 id="servicesTitle">Tout ce dont tu as besoin, au même endroit.</h2></div>
+        <p>Des raccourcis pensés pour Android, WhatsApp et Telegram. Le bouton de connexion reste toujours à portée de main.</p>
+      </div>
+      <div class="feature-grid">
+        <a class="feature-card feature-card-primary" href="#pairing"><span class="feature-index">01</span><span class="feature-icon wa-icon">WA</span><h3>Connecter WhatsApp</h3><p>Obtiens ton code de jumelage manuel en quelques secondes.</p><span class="feature-cta">Ouvrir le pairing <b>↗</b></span></a>
+        <a class="feature-card" href="#assistant"><span class="feature-index">02</span><span class="feature-icon">AI</span><h3>Assistant IA</h3><p>Pose une question sur le pairing ou l’utilisation sûre du bot.</p><span class="feature-cta">Parler à l’IA <b>↗</b></span></a>
+        <a class="feature-card" href="#audio"><span class="feature-index">03</span><span class="feature-icon">♪</span><h3>Download song</h3><p>Recherche un titre et récupère un lien audio compatible Android.</p><span class="feature-cta">Ouvrir le studio audio <b>↗</b></span></a>
+        <a class="feature-card" href="#support"><span class="feature-index">04</span><span class="feature-icon">SOS</span><h3>Support & déban</h3><p>Prépare une demande claire pour le support officiel WhatsApp.</p><span class="feature-cta">Préparer une demande <b>↗</b></span></a>
+      </div>
+    </section>
+    <section class="tool-grid reveal" aria-label="Dentsu tools">
+      <article class="tool-panel panel" id="assistant">
+        <div class="panel-heading"><div><span class="step-label">03 / AI ASSISTANT</span><h2>Discute avec l’assistant</h2></div><span class="panel-number">AI</span></div>
+        <p class="subtitle">Un assistant signé DENTSU pour t’aider avec la connexion, les commandes et les bonnes pratiques.</p>
+        <form id="aiForm" class="tool-form"><label for="aiPrompt" class="field-label">Ta question</label><textarea id="aiPrompt" maxlength="2000" placeholder="Ex : Comment connecter mon numéro sans QR code ?" required></textarea><button class="tool-button" type="submit"><span>Demander à l’IA</span><b>↗</b></button></form>
+        <div id="aiResult" class="tool-result" hidden aria-live="polite"></div>
+      </article>
+      <article class="tool-panel panel" id="audio">
+        <div class="panel-heading"><div><span class="step-label">04 / AUDIO STUDIO</span><h2>Télécharger une chanson</h2></div><span class="panel-number">♪</span></div>
+        <p class="subtitle">Entre un titre ou un lien. Utilise uniquement des contenus que tu as le droit d’enregistrer.</p>
+        <form id="audioForm" class="tool-form"><label for="audioQuery" class="field-label">Titre ou lien vidéo</label><input id="audioQuery" type="text" maxlength="300" placeholder="Ex : un titre ou une URL YouTube" required><button class="tool-button" type="submit"><span>Rechercher l’audio</span><b>↗</b></button></form>
+        <div id="audioResult" class="tool-result" hidden aria-live="polite"></div>
+      </article>
+      <article class="tool-panel panel" id="support">
+        <div class="panel-heading"><div><span class="step-label">05 / SUPPORT</span><h2>Demande de débanissement</h2></div><span class="panel-number">SOS</span></div>
+        <p class="subtitle">Aucun déban automatique n’est promis : prépare une demande honnête pour le support officiel.</p>
+        <form id="supportForm" class="tool-form"><label for="supportNumber" class="field-label">Numéro concerné</label><input id="supportNumber" type="tel" maxlength="15" placeholder="242XXXXXXXX" required><label for="supportIssue" class="field-label">Situation</label><textarea id="supportIssue" maxlength="600" placeholder="Explique brièvement ce qui s’est passé." required></textarea><button class="tool-button" type="submit"><span>Préparer ma demande</span><b>↗</b></button></form>
+        <div id="supportResult" class="tool-result" hidden aria-live="polite"></div>
+      </article>
+      <article class="tool-panel panel safety-panel" id="diagnostics">
+        <div class="panel-heading"><div><span class="step-label">06 / SAFE DIAGNOSTICS</span><h2>Diagnostic WhatsApp</h2></div><span class="panel-number">SAFE</span></div>
+        <p class="subtitle">Un rapport de dépannage local, sans action agressive et sans message envoyé à un numéro.</p>
+        <form id="diagnosticsForm" class="tool-form"><label for="diagnosticsNumber" class="field-label">Numéro à dépanner</label><input id="diagnosticsNumber" type="tel" maxlength="15" placeholder="242XXXXXXXX" required><label for="diagnosticsIssue" class="field-label">Problème rencontré</label><input id="diagnosticsIssue" type="text" maxlength="120" placeholder="Ex : code expiré" required><button class="tool-button" type="submit"><span>Générer le rapport sûr</span><b>↗</b></button></form>
+        <div id="diagnosticsResult" class="tool-result" hidden aria-live="polite"></div>
+      </article>
+    </section>
+    <section class="android-rail panel reveal" id="android">
+      <div class="android-copy"><span class="step-label">ANDROID QUICK ACCESS</span><h2>Des actions claires sur ton téléphone</h2><p>Utilise les raccourcis ci-dessous pour passer directement au pairing, au téléchargement légal ou au support.</p></div>
+      <div class="android-actions"><a href="#pairing" class="android-action"><span>WA</span><b>Pairing Android</b><i>↗</i></a><a href="#audio" class="android-action"><span>♪</span><b>Audio Android</b><i>↗</i></a><a href="#support" class="android-action"><span>?</span><b>Support Android</b><i>↗</i></a></div>
+    </section>`;
+  const footer = root.querySelector('.footer');
+  if (footer) footer.insertAdjacentHTML('beforebegin', markup);
+  else root.insertAdjacentHTML('beforeend', markup);
+}
 
 function setupToolForms() {
   const aiForm = document.getElementById('aiForm');
@@ -533,7 +587,7 @@ function setupToolForms() {
     event.preventDefault();
     const root = document.getElementById('mainContent');
     const email = root?.dataset.supportEmail || '';
-    const telegram = root?.dataset.telegram || '';
+    const telegram = root?.dataset.telegram || root?.querySelector('a[href*="t.me"]')?.href || '';
     const number = document.getElementById('supportNumber').value.trim().replace(/\D/g, '');
     const issue = document.getElementById('supportIssue').value.trim();
     if (number.length < 7 || !issue) {
