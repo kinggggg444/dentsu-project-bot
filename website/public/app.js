@@ -456,7 +456,197 @@ window.addEventListener('DOMContentLoaded', () => {
 
   refreshStatus();
   window.setInterval(refreshStatus, 20000);
+  setupToolForms();
+  setupScrollReveal();
 });
+
+function setupToolForms() {
+  const aiForm = document.getElementById('aiForm');
+  const aiPrompt = document.getElementById('aiPrompt');
+  const aiResult = document.getElementById('aiResult');
+
+  aiForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = aiForm.querySelector('button');
+    const prompt = aiPrompt.value.trim();
+    if (!prompt) return;
+    setToolLoading(button, 'L’IA réfléchit…');
+    setToolResult(aiResult, 'loading', 'Connexion à l’assistant…');
+    try {
+      const response = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ prompt }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.success) throw new Error(data.error || 'Assistant indisponible.');
+      setToolResult(aiResult, 'success', data.answer);
+    } catch (error) {
+      setToolResult(aiResult, 'error', error.message);
+    } finally {
+      clearToolLoading(button, 'Demander à l’IA');
+    }
+  });
+
+  const audioForm = document.getElementById('audioForm');
+  const audioQuery = document.getElementById('audioQuery');
+  const audioResult = document.getElementById('audioResult');
+
+  audioForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = audioForm.querySelector('button');
+    const query = audioQuery.value.trim();
+    if (!query) return;
+    setToolLoading(button, 'Recherche…');
+    setToolResult(audioResult, 'loading', 'Recherche d’un résultat audio…');
+    try {
+      const response = await fetch('/api/download/song', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ query }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.success) throw new Error(data.error || 'Audio indisponible.');
+      audioResult.hidden = false;
+      audioResult.className = 'tool-result success audio-result-card';
+      audioResult.replaceChildren();
+      const title = document.createElement('strong');
+      title.textContent = data.title || query;
+      const note = document.createElement('span');
+      note.textContent = data.note || 'Lien prêt pour ton téléphone.';
+      const link = document.createElement('a');
+      link.href = data.url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = 'Télécharger l’audio ↗';
+      audioResult.append(title, note, link);
+    } catch (error) {
+      setToolResult(audioResult, 'error', error.message);
+    } finally {
+      clearToolLoading(button, 'Rechercher l’audio');
+    }
+  });
+
+  const supportForm = document.getElementById('supportForm');
+  const supportResult = document.getElementById('supportResult');
+  supportForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const root = document.getElementById('mainContent');
+    const email = root?.dataset.supportEmail || '';
+    const telegram = root?.dataset.telegram || '';
+    const number = document.getElementById('supportNumber').value.trim().replace(/\D/g, '');
+    const issue = document.getElementById('supportIssue').value.trim();
+    if (number.length < 7 || !issue) {
+      setToolResult(supportResult, 'error', 'Indique un numéro valide et explique brièvement la situation.');
+      return;
+    }
+
+    const subject = `Support WhatsApp — ${number}`;
+    const body = [
+      'Bonjour,',
+      '',
+      `Numéro concerné : +${number}`,
+      `Situation : ${issue}`,
+      '',
+      'Je demande une vérification de mon compte via les canaux officiels WhatsApp.',
+    ].join('\n');
+    supportResult.hidden = false;
+    supportResult.className = 'tool-result success support-result';
+    supportResult.replaceChildren();
+    const message = document.createElement('span');
+    message.textContent = email
+      ? 'Ta demande est prête. Envoie-la uniquement au support configuré.'
+      : 'Le support email n’est pas encore configuré. Utilise Telegram ou le formulaire officiel WhatsApp.';
+    supportResult.append(message);
+    if (email) {
+      const mail = document.createElement('a');
+      mail.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      mail.textContent = 'Ouvrir l’email de support ↗';
+      supportResult.append(mail);
+    }
+    if (telegram) {
+      const tg = document.createElement('a');
+      tg.href = telegram;
+      tg.target = '_blank';
+      tg.rel = 'noopener noreferrer';
+      tg.textContent = 'Ouvrir Telegram ↗';
+      supportResult.append(tg);
+    }
+  });
+
+  const diagnosticsForm = document.getElementById('diagnosticsForm');
+  const diagnosticsResult = document.getElementById('diagnosticsResult');
+  diagnosticsForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = diagnosticsForm.querySelector('button');
+    const number = document.getElementById('diagnosticsNumber').value.trim().replace(/\D/g, '');
+    const issue = document.getElementById('diagnosticsIssue').value.trim();
+    setToolLoading(button, 'Analyse…');
+    setToolResult(diagnosticsResult, 'loading', 'Préparation du diagnostic sûr…');
+    try {
+      const response = await fetch('/api/safe-diagnostics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ number, issue }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.success) throw new Error(data.error || 'Diagnostic impossible.');
+      diagnosticsResult.hidden = false;
+      diagnosticsResult.className = 'tool-result success diagnostics-result';
+      diagnosticsResult.replaceChildren();
+      const intro = document.createElement('strong');
+      intro.textContent = `${data.message} Référence : ${data.reference}`;
+      const list = document.createElement('ul');
+      data.checklist.forEach((item) => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        list.append(li);
+      });
+      diagnosticsResult.append(intro, list);
+    } catch (error) {
+      setToolResult(diagnosticsResult, 'error', error.message);
+    } finally {
+      clearToolLoading(button, 'Générer le rapport sûr');
+    }
+  });
+}
+
+function setToolLoading(button, label) {
+  if (!button) return;
+  button.disabled = true;
+  button.dataset.originalLabel = button.textContent;
+  button.innerHTML = `<span class="spinner spinner-light"></span>${label}`;
+}
+
+function clearToolLoading(button, label) {
+  if (!button) return;
+  button.disabled = false;
+  button.innerHTML = `<span>${label}</span><b>↗</b>`;
+}
+
+function setToolResult(element, type, message) {
+  if (!element) return;
+  element.hidden = false;
+  element.className = `tool-result ${type}`;
+  element.textContent = message;
+}
+
+function setupScrollReveal() {
+  const elements = document.querySelectorAll('.reveal');
+  if (!elements.length) return;
+  if (!('IntersectionObserver' in window)) {
+    elements.forEach((element) => element.classList.add('is-visible'));
+    return;
+  }
+  const observer = new IntersectionObserver((entries, instance) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      instance.unobserve(entry.target);
+    });
+  }, { threshold: 0.12 });
+  elements.forEach((element) => observer.observe(element));
+}
 
 async function refreshStatus() {
   try {
