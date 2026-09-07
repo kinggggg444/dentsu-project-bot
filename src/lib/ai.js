@@ -36,6 +36,23 @@ function extractAnswer(value) {
   return '';
 }
 
+function localDentsuAnswer(prompt) {
+  const text = prompt.toLowerCase();
+  if (/\b(pair|pairing|jumelage|code|qr)\b/.test(text)) {
+    return 'Pour connecter WhatsApp : ouvre le pairing DENTSU, saisis ton numéro avec l’indicatif pays, puis dans WhatsApp ouvre Appareils connectés → Connecter un appareil → Connecter avec un numéro de téléphone. Entre le code affiché ici et garde WhatsApp à jour.';
+  }
+  if (/\b(audio|musique|chanson|song|télécharg|download)\b/.test(text)) {
+    return 'Utilise le studio audio du site avec un titre ou un lien vidéo. Télécharge uniquement les contenus que tu as le droit d’enregistrer, puis ouvre le lien obtenu sur ton téléphone Android.';
+  }
+  if (/\b(support|déban|banni|ban|bloqu|compte)\b/.test(text)) {
+    return 'Pour un compte restreint, évite les tentatives répétées et contacte le support officiel WhatsApp depuis l’application. Le formulaire DENTSU prépare un résumé clair, mais ne promet pas un déblocage automatique.';
+  }
+  if (/\b(diagnostic|sécur|sécurité|problème|erreur)\b/.test(text)) {
+    return 'Lance le diagnostic sûr avec le numéro au format international et une courte description. Il ne contacte pas le numéro : il prépare seulement une checklist de dépannage et une référence de support.';
+  }
+  return '';
+}
+
 async function askDentsuAI(prompt) {
   const guardedPrompt = [
     'You are the official DENTSU PROJECT BOT website assistant.',
@@ -73,6 +90,8 @@ async function askDentsuAI(prompt) {
       lastError = error;
     }
   }
+  const localAnswer = localDentsuAnswer(prompt);
+  if (localAnswer) return localAnswer;
   throw lastError || new Error('The AI providers returned no answer.');
 }
 
